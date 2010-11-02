@@ -2,10 +2,9 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.ServiceModel.Description;
 using Microsoft.ServiceModel.Http;
 
-namespace SelfhostedServer {
+namespace SelfhostedServer.Host {
         public class SelfHostedWebHttpHost : ServiceHost {
             private readonly IServiceLocator _ServiceLocator;
 

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Microsoft.ServiceModel.Http;
+using SelfhostedServer.Host;
 using SelfhostedServer.ProcessorFactories;
 using SelfhostedServer.ServiceContracts;
 using SelfhostedServer.Services;
+using ServiceLocator = SelfhostedServer.Tools.ServiceLocator;
 
 namespace SelfhostedServer {
     class Program {
@@ -42,23 +43,6 @@ namespace SelfhostedServer {
             var configuration = new TProcessorFactory();
 
             return new SelfHostedWebHttpHost(container, typeof(TServiceContract), configuration, baseAddresses);
-        }
-    }
-
-
-    public class ServiceLocator : ServiceLocatorImplBase {
-        private readonly IUnityContainer _Container;
-
-        public ServiceLocator(IUnityContainer container) {
-            _Container = container;
-        }
-
-        protected override object DoGetInstance(Type serviceType, string key) {
-            return _Container.Resolve(serviceType, key);
-        }
-
-        protected override IEnumerable<object> DoGetAllInstances(Type serviceType) {
-            return _Container.ResolveAll(serviceType);
         }
     }
 }

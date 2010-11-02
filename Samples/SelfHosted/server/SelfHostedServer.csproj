@@ -65,11 +65,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DIHttpEndpointBehaviour.cs" />
+    <Compile Include="Host\DependencyInjectionInstanceProvider.cs" />
+    <Compile Include="Host\DIHttpEndpointBehaviour.cs" />
+    <Compile Include="Tools\ServiceLocator.cs" />
     <Compile Include="Services\ILogger.cs" />
     <Compile Include="ProcessorFactories\DefaultProcessorFactory.cs" />
     <Compile Include="ProcessorFactories\RawProcessorFactory.cs" />
-    <Compile Include="SelfHostedWebHttpHost.cs" />
+    <Compile Include="Host\SelfHostedWebHttpHost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Processors\RawHttpProcessor.cs" />
