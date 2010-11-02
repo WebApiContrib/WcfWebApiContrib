@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel.Description;
-using System.Text;
 using System.ServiceModel.Dispatcher;
 using Microsoft.Http;
 using Microsoft.ServiceModel.Dispatcher;
 
-namespace TavisSample {
+namespace SelfhostedServer.Processors {
     public class RawHttpProcessor : Processor {
         private HttpParameterDescription _ReturnValue;
 

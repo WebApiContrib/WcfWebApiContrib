@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using Microsoft.ServiceModel.Http;
-using TavisSample;
+using SelfhostedServer.Processors;
 
 namespace SelfhostedServer.ProcessorFactories {
     public class RawProcessorFactory : HostConfiguration {

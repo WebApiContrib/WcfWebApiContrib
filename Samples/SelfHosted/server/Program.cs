@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.ServiceModel.Http;
 using SelfhostedServer.ProcessorFactories;
-using TavisSample;
+using SelfhostedServer.ServiceContracts;
 
 namespace SelfhostedServer {
     class Program {

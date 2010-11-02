@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Text;
 using Microsoft.Http;
 
-namespace TavisSample {
+namespace SelfhostedServer.ServiceContracts {
 
     [ServiceContract]
     public class FooService {
