@@ -16,17 +16,14 @@ namespace SelfhostedServer.Host {
                 : base(serviceType, baseAddresses) {
                 _ServiceLocator = serviceLocator;
 
-                var contract = ContractDescription.GetContract(serviceType);
-
                 foreach (Uri baseAddress in baseAddresses) {
-                    ConfigureEndpoint(contract, baseAddress, processorFactory);
+                    ConfigureEndpoint(serviceType, baseAddress, processorFactory);
                 }
             }
 
-            private void ConfigureEndpoint(ContractDescription contract, Uri baseAddress, HostConfiguration processorFactory) {
-                var endpoint = new ServiceEndpoint(contract, new HttpMessageBinding(), new EndpointAddress(baseAddress));
+            private void ConfigureEndpoint(Type serviceType, Uri baseAddress, HostConfiguration processorFactory) {
+                var endpoint = this.AddServiceEndpoint(serviceType, new HttpMessageBinding(), baseAddress);
                 endpoint.Behaviors.Add(new DIHttpEndpointBehaviour(_ServiceLocator, processorFactory));
-                AddServiceEndpoint(endpoint);
             }
         }
     }
