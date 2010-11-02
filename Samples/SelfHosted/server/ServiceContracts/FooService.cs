@@ -7,7 +7,11 @@ namespace SelfhostedServer.ServiceContracts {
 
     [ServiceContract]
     public class FooService {
+        private readonly ILogger _Logger;
 
+        public FooService(ILogger logger) {
+            _Logger = logger;
+        }
 
         [WebGet(UriTemplate = "root")]
         [OperationContract]
