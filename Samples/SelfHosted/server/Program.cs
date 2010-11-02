@@ -6,12 +6,13 @@ using SelfhostedServer.ServiceContracts;
 namespace SelfhostedServer {
     class Program {
         static void Main(string[] args) {
-
-
-            SelfHostedWebHttpHost host = CreateHost<FooService,DefaultProcessorFactory>("http://localhost:1000/");
+            var baseurl = "http://localhost:1000/";
+            SelfHostedWebHttpHost host = CreateHost<FooService,RawProcessorFactory>(baseurl);
             host.Open();
 
-            Console.WriteLine("Host closed.  Hit any key to exit...");
+            Console.WriteLine("Host open.  Hit enter to exit...");
+            Console.WriteLine("Use a web browser and go to " + baseurl + "root or do it right and get fiddler!");
+
             Console.Read();
 
             host.Close();
