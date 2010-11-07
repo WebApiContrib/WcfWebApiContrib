@@ -6,6 +6,8 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.Text;
 using Microsoft.ServiceModel.Http;
+using SelfhostedServer.Processors;
+using SelfhostedServer.Services;
 
 namespace SelfhostedServer.ProcessorFactories {
     public class DefaultProcessorFactory : HostConfiguration {
@@ -14,7 +16,9 @@ namespace SelfhostedServer.ProcessorFactories {
         }
 
         public override void RegisterResponseProcessorsForOperation(HttpOperationDescription operation, IList<Processor> processors, MediaTypeProcessorMode mode) {
-            // Do Nothing
+            processors.Add(new PlainTextProcessor(operation, MediaTypeProcessorMode.Response));
+            //processors.Add(new LoggingProcessor(new Logger(), false));
+            
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SelfhostedServer {
             var serviceLocator = new ServiceLocator(CreateDIContainer());
 
             var baseurl = "http://localhost:1000/";
-            SelfHostedWebHttpHost host = CreateHost<FooService, RawProcessorFactory>(serviceLocator, baseurl);
+            SelfHostedWebHttpHost host = CreateHost<FooService, DefaultProcessorFactory>(serviceLocator, baseurl);
             host.Open();
 
             Console.WriteLine("Host open.  Hit enter to exit...");
