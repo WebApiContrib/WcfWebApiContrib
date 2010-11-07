@@ -19,7 +19,7 @@ namespace SelfhostedServer.ServiceContracts {
 
             
             httpResponseMessage.Content = HttpContent.Create(@"<html>
-                                                        <a href='foo'>Get plain text response using a returned HttpResponseMessage</a><br/>
+                                                        <a href='foo'>Get plain text response by returning a string</a><br/>
                                                         <a href='foo2'>Get plain text response by modifiing a passed HttpResponseMessage</a>
                                                     </html>", "text/html");
             httpResponseMessage.StatusCode = HttpStatusCode.OK;
@@ -27,15 +27,6 @@ namespace SelfhostedServer.ServiceContracts {
 
 
 
-        // Returning HttpResponseMEssage is enabled by the RawHttpProcessor
-        [WebGet(UriTemplate = "Foo")]
-        [OperationContract]
-        public HttpResponseMessage GetFoo(HttpRequestMessage httpRequestMessage) {
-
-            var response = new HttpResponseMessage();
-            response.Content = HttpContent.Create("Hello World", "text/plain");
-            return response;
-        }
 
 
         // Recommended way to impact the httpResponseMessage directly
@@ -45,6 +36,15 @@ namespace SelfhostedServer.ServiceContracts {
 
             httpResponseMessage.Content = HttpContent.Create("Hello World", "text/plain");
             httpResponseMessage.StatusCode = HttpStatusCode.OK;
+        }
+
+
+        
+        [WebGet(UriTemplate = "Foo")]
+        [OperationContract]
+        public string GetFoo() {
+            
+            return "Hello world";
         }
 
 

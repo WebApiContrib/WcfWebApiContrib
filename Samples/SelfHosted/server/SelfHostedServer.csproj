@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\libs\Log4Net1.2.10\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Http">
       <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.Http.dll</HintPath>
     </Reference>
@@ -65,6 +68,8 @@
   <ItemGroup>
     <Compile Include="Host\DependencyInjectionInstanceProvider.cs" />
     <Compile Include="Host\DIHttpEndpointBehaviour.cs" />
+    <Compile Include="Processors\LoggingProcessor.cs" />
+    <Compile Include="Services\W3cPatternLayout.cs" />
     <Compile Include="Tools\ServiceLocator.cs" />
     <Compile Include="Services\ILogger.cs" />
     <Compile Include="ProcessorFactories\DefaultProcessorFactory.cs" />
