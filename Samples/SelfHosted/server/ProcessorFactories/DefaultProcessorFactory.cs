@@ -13,11 +13,12 @@ namespace SelfhostedServer.ProcessorFactories {
     public class DefaultProcessorFactory : HostConfiguration {
         public override void RegisterRequestProcessorsForOperation(HttpOperationDescription operation, IList<Processor> processors, MediaTypeProcessorMode mode) {
             // Do nothing
+            processors.Add(new LoggingProcessor(new Logger(), true));
         }
 
         public override void RegisterResponseProcessorsForOperation(HttpOperationDescription operation, IList<Processor> processors, MediaTypeProcessorMode mode) {
             processors.Add(new PlainTextProcessor(operation, MediaTypeProcessorMode.Response));
-            //processors.Add(new LoggingProcessor(new Logger(), false));
+            processors.Add(new LoggingProcessor(new Logger(), false));
             
         }
     }

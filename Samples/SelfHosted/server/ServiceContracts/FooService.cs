@@ -44,7 +44,7 @@ namespace SelfhostedServer.ServiceContracts {
         [OperationContract]
         public string GetFoo() {
             
-            return "Hello world";
+            return "If you use fiddler and put text/plain it will return as text/plain, otherwise it will come back as an xml serialized string";
         }
 
 
