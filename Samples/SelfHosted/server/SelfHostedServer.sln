@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfHostedServer", "SelfHostedServer.csproj", "{0DD1D86C-8F26-4B36-85C2-D4D437D86DD2}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpServer", "..\FSharpServer\FSharpServer.fsproj", "{69C9B749-3FFB-4301-9057-DC21A56722D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{0DD1D86C-8F26-4B36-85C2-D4D437D86DD2}.Debug|x86.Build.0 = Debug|x86
 		{0DD1D86C-8F26-4B36-85C2-D4D437D86DD2}.Release|x86.ActiveCfg = Release|x86
 		{0DD1D86C-8F26-4B36-85C2-D4D437D86DD2}.Release|x86.Build.0 = Release|x86
+		{69C9B749-3FFB-4301-9057-DC21A56722D4}.Debug|x86.ActiveCfg = Debug|x86
+		{69C9B749-3FFB-4301-9057-DC21A56722D4}.Debug|x86.Build.0 = Debug|x86
+		{69C9B749-3FFB-4301-9057-DC21A56722D4}.Release|x86.ActiveCfg = Release|x86
+		{69C9B749-3FFB-4301-9057-DC21A56722D4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
