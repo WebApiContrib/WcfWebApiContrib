@@ -8,16 +8,17 @@ using SelfhostedServer.ProcessorFactories;
 using SelfhostedServer.ServiceContracts;
 using SelfhostedServer.Services;
 using ServiceLocator = SelfhostedServer.Tools.ServiceLocator;
+using Microsoft.Http;
+using System.Net;
 
 namespace SelfhostedServer {
     class Program {
         static void Main(string[] args) {
-            
-
             var serviceLocator = new ServiceLocator(CreateDIContainer());
 
             var baseurl = "http://localhost:1000/";
             SelfHostedWebHttpHost host = CreateHost<FooService, DefaultProcessorFactory>(serviceLocator, baseurl);
+            //SelfHostedWebHttpHost host = CreateSingletonHost(serviceLocator, baseurl);
             host.Open();
 
             Console.WriteLine("Host open.  Hit enter to exit...");
@@ -26,8 +27,6 @@ namespace SelfhostedServer {
             Console.Read();
 
             host.Close();
-
-            
         }
 
         private static UnityContainer CreateDIContainer() {
@@ -43,6 +42,18 @@ namespace SelfhostedServer {
             var configuration = new TProcessorFactory();
 
             return new SelfHostedWebHttpHost(container, typeof(TServiceContract), configuration, baseAddresses);
+        }
+
+        private static SelfHostedWebHttpHost CreateSingletonHost(IServiceLocator container, string baseUrl)
+        {
+            object singletonInstance = new SingletonService(request => {
+                return new HttpResponseMessage {
+                    Content = HttpContent.Create("Hello World", "text/plain"),
+                    StatusCode = HttpStatusCode.OK,
+                };
+            });
+            HostConfiguration configuration = new DefaultProcessorFactory();
+            return new SelfHostedWebHttpHost(container, singletonInstance, configuration, new Uri(baseUrl));
         }
     }
 }

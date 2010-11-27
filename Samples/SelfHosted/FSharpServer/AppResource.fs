@@ -9,9 +9,51 @@ open Microsoft.Http
 /// <remarks>The <see cref="AppResource"/> serves as a catch-all handler for WCF HTTP services.</remarks>
 [<ServiceContract>]
 [<ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)>]
-type AppResource(app:Func<HttpRequestMessage,HttpResponseMessage>) =
-  /// <summary>Invokes the application with the specified <paramref name="request"/>.</summary>
+type AppResource(app:Func<HttpRequestMessage, HttpResponseMessage>) =
+  // Helper method to map the returned response to the response from WCF.
+  let map (r:HttpResponseMessage) (r':HttpResponseMessage) =
+    r.StatusCode <- r'.StatusCode
+    r.Method <- r'.Method
+    r.Uri <- r'.Uri
+    r.Headers <- r'.Headers 
+    r.Content <- r'.Content
+    r.Properties.Clear()
+    r'.Properties |> Seq.iter r.Properties.Add
+
+  let handle request response = let response' = app.Invoke(request) in map response response'
+
+  /// <summary>Invokes the application with the specified GET <paramref name="request"/>.</summary>
   /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
   /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
-  [<WebInvoke(UriTemplate="*", Method="*")>]
-  member x.Invoke(request) = app.Invoke(request)
+  [<WebGet(UriTemplate="*")>]
+  member x.Get(request, response) = handle request response
+
+  /// <summary>Invokes the application with the specified GET <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<WebInvoke(UriTemplate="*", Method="HEAD")>]
+  member x.Head(request, response) = handle request response
+
+  /// <summary>Invokes the application with the specified POST <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<WebInvoke(UriTemplate="*", Method="POST")>]
+  member x.Post(request, response) = handle request response
+
+  /// <summary>Invokes the application with the specified PUT <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<WebInvoke(UriTemplate="*", Method="PUT")>]
+  member x.Put(request, response) = handle request response
+
+  /// <summary>Invokes the application with the specified DELETE <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<WebInvoke(UriTemplate="*", Method="DELETE")>]
+  member x.Delete(request, response) = handle request response
+
+  /// <summary>Invokes the application with the specified OPTIONS <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<WebInvoke(UriTemplate="*", Method="OPTIONS")>]
+  member x.Options(request, response) = handle request response
