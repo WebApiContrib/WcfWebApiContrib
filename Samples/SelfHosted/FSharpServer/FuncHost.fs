@@ -26,4 +26,4 @@ type FuncHost(app, ?requestProcessors, ?responseProcessors, ?baseAddresses) =
     let requestProcessors' = defaultArg requestProcessors Seq.empty
     let responseProcessors' = defaultArg responseProcessors Seq.empty
     let baseUris = defaultArg baseAddresses [||] |> Array.map (fun baseAddress -> Uri(baseAddress))
-    new FuncHost(app, requestProcessors', responseProcessors', baseUris)
+    new FuncHost(Func<_,_>(app), requestProcessors', responseProcessors', baseUris)
