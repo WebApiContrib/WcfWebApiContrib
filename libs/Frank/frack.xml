@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>frack</name></assembly>
+<members>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Frack.SeqStream">
+<summary>
+ Initializes a new instance of the SeqStream class.
+ &lt;param name=&quot;data&quot;&gt;The bytes for the enumerable stream.&lt;/param&gt;
+ &lt;remarks&gt;The implementation is derived from Bent Rasumssen&apos;s Extensia project.&lt;/remarks&gt;
+ &lt;see href=&quot;http://extensia.codeplex.com&quot;/&gt;
+</summary>
+</member>
+<member name="T:Frack.bytestring">
+<summary>
+ An immutable byte sequence.
+ &lt;remarks&gt;Alias of byte seq.&lt;/remarks&gt;
+</summary>
+</member>
+<member name="M:Frack.Array.slice``1(System.Int32,System.Int32,``0[])">
+<summary>
+ Slices out a portion of the array from the start index up to the stop index.
+</summary>
+</member>
+<member name="T:Frack.Array">
+<summary>
+ Extensions to the Array module.
+</summary>
+</member>
+<member name="M:Frack.ByteString.transfer(System.IO.Stream,System.Collections.Generic.IEnumerable{System.Byte})">
+<summary>
+ Transfers the bytes of a byte string into a stream
+</summary>
+</member>
+<member name="M:Frack.ByteString.toObj(System.Collections.Generic.IEnumerable{System.Byte})">
+<summary>
+ Converts a byte string into an object.
+</summary>
+</member>
+<member name="M:Frack.ByteString.toStream(System.Collections.Generic.IEnumerable{System.Byte})">
+<summary>
+ Converts a byte string into a stream.
+</summary>
+</member>
+<member name="M:Frack.ByteString.fromObject(System.Object)">
+<summary>
+ Converts an object to a byte seq.
+</summary>
+</member>
+<member name="M:Frack.ByteString.fromFileInfo(System.IO.FileInfo)">
+<summary>
+ Converts a &lt;see cref=&quot;FileInfo&quot;/&gt; into a byte seq.
+</summary>
+</member>
+<member name="M:Frack.ByteString.fromStreamChunked(System.Int32,System.IO.Stream)">
+<summary>
+ Converts a stream into a chunked byte string.
+</summary>
+</member>
+<member name="M:Frack.ByteString.fromStream(System.Int32,System.IO.Stream)">
+<summary>
+ Converts a stream into a byte string.
+</summary>
+</member>
+<member name="M:Frack.ByteString.fromString(System.String)">
+<summary>
+ Converts a string into a byte string.
+</summary>
+</member>
+<member name="M:Frack.ByteString.toString(System.Collections.Generic.IEnumerable{System.Byte})">
+<summary>
+ Converts a byte string into a string.
+</summary>
+</member>
+<member name="P:Frack.ByteString.empty">
+<summary>
+ An empty byte string.
+</summary>
+</member>
+<member name="T:Frack.ByteString">
+<summary>
+ Module to transform a string into an immutable list of bytes and back.
+ &lt;remarks&gt;Several extensions derived from Bent Rasumssen&apos;s Extensia project.&lt;/remarks&gt;
+ &lt;see href=&quot;http://extensia.codeplex.com&quot;/&gt;
+</summary>
+</member>
+<member name="T:Frack.Core.Middleware">
+<summary>
+ Defines the type for a Frack middleware.
+</summary>
+</member>
+<member name="T:Frack.Core.App">
+<summary>
+ Defines the type for a Frack application.
+</summary>
+</member>
+<member name="T:Frack.Core.Environment">
+<summary>
+ Defines the type for a Frack request.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Frack.Core.Value">
+<summary>
+ Defines a discriminated union of types that may be provided in the Frack Request.
+</summary>
+</member>
+<member name="M:Frack.Core.read(Frack.Core.Value)">
+<summary>
+ Reads a Frack.Value and returns a string result.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="M:Frack.Core.implicit``2(``0)">
+<summary>
+ Generic duck-typing operator.
+ &lt;see href=&quot;http://weblogs.asp.net/podwysocki/archive/2009/06/11/f-duck-typing-and-structural-typing.aspx&quot; /&gt;
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="M:Frack.Core.op_Dynamic``3(``0,``1)">
+<summary>
+ Dynamic indexer lookups.
+ &lt;see href=&quot;http://codebetter.com/blogs/matthew.podwysocki/archive/2010/02/05/using-and-abusing-the-f-dynamic-lookup-operator.aspx&quot; /&gt;
+</summary>
+</member>
+<member name="M:Frack.Core.getPathParts(System.String)">
+<summary>
+ Returns the script name and path info from a url.
+</summary>
+</member>
+<member name="T:Frack.Core">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Frack.Dict">
+<summary>
+ Extensions to dictionaries.
+</summary>
+</member>
+<member name="T:Frack.Extensions">
+
+</member>
+</members>
+</doc>

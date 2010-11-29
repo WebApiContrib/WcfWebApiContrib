@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>frank</name></assembly>
+<members>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Frank.App.Invoke(Microsoft.Http.HttpRequestMessage)">
+<summary>
+ Inokes the Frank app on the specified request.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="T:Frank.App">
+<summary>
+ A Frank application with the specified sequence of routes.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Frank.Formatter">
+<summary>
+ Formats an object into the specified content type using the given format function.
+</summary>
+</member>
+<member name="T:Frank.Handler">
+<summary>
+ The Frank monad as a request/response handler.
+</summary>
+</member>
+<member name="M:Frank.Core.redirectTo(System.String)">
+<summary>
+ Updates the response state with a redirect, setting the status code to 303
+ and the location header to the specified url.
+</summary>
+</member>
+<member name="M:Frank.Core.render``1(``0)">
+<summary>
+ Renders the content.
+</summary>
+</member>
+<member name="M:Frank.Core.|Str|Xml|Format|(System.Object)">
+<summary>
+ An active pattern to identify and safely type incoming content for rendering.
+</summary>
+</member>
+<member name="M:Frank.Core.format``1(``0)">
+<summary>
+ Updates the state of the response content using the request&apos;s Accept header and available formatters.
+</summary>
+</member>
+<member name="M:Frank.Core.getFormatter">
+<summary>
+ Selects a formatter using the Accept header from the request and the available formatters.
+</summary>
+</member>
+<member name="M:Frank.Core.appends(System.Collections.Generic.IEnumerable{System.Byte})">
+<summary>
+ Appends the content to the existing output.
+</summary>
+</member>
+<member name="M:Frank.Core.puts(System.Collections.Generic.IEnumerable{System.Byte},System.String)">
+<summary>
+ Updates the state of the response content with the provided bytestring as the specified content type.
+</summary>
+</member>
+<member name="M:Frank.Core.putContent(Microsoft.Http.HttpContent)">
+<summary>
+ Updates the state of the response content.
+</summary>
+</member>
+<member name="M:Frank.Core.appendHeaderValues(System.String,System.String[])">
+<summary>
+ Updates the state of the response headers with the specified name-value pair.
+</summary>
+</member>
+<member name="M:Frank.Core.appendHeader(System.String,System.String)">
+<summary>
+ Updates the state of the response headers with the specified name-value pair.
+</summary>
+</member>
+<member name="M:Frank.Core.putResponse(Microsoft.Http.HttpResponseMessage)">
+<summary>
+ Updates the state of the response.
+</summary>
+</member>
+<member name="M:Frank.Core.putRequest(Microsoft.Http.HttpRequestMessage)">
+<summary>
+ Updates the state of the request.
+</summary>
+</member>
+<member name="P:Frank.Core.getFormatters">
+<summary>
+ Gets the current state of the formatters.
+</summary>
+</member>
+<member name="P:Frank.Core.getParams">
+<summary>
+ Gets the current state of the parameters.
+</summary>
+</member>
+<member name="P:Frank.Core.getResponse">
+<summary>
+ Gets the current state of the response.
+</summary>
+</member>
+<member name="P:Frank.Core.getRequest">
+<summary>
+ Gets the current state of the request.
+</summary>
+</member>
+<member name="P:Frank.Core.frank">
+<summary>
+ Sets an instance of StateBuilder as the computation workflow for a Frank monad.
+</summary>
+</member>
+<member name="T:Frank.Core">
+
+</member>
+<member name="M:Frank.FrankApp.toFrack(Frank.App,System.Collections.Generic.IDictionary{System.String,Frack.Core.Value})">
+<summary>
+ Converts a Frank application into a Frack application.
+</summary>
+</member>
+<member name="T:Frank.FrankApp">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Frank.Routing.Route">
+<summary>
+ A route for a Frank application.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Frank.Routing.route(System.String,System.String,FSharp.Monad.State{Microsoft.FSharp.Core.Unit,System.Tuple`4{Microsoft.Http.HttpRequestMessage,Microsoft.Http.HttpResponseMessage,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Frank.Formatter}}})">
+<summary>
+ Creates a route object for a given HTTP method, path pattern, and Handler.
+</summary>
+</member>
+<member name="M:Frank.Routing.compile(System.String)">
+<summary>
+ Returns the path along with the expected match keys.
+</summary>
+</member>
+<member name="M:Frank.Routing.|Route|_|(Frank.Routing.Route,Microsoft.Http.HttpRequestMessage)">
+<summary>
+ Matches a route and returns an option containing the params and handler. 
+</summary>
+</member>
+<member name="M:Frank.Routing.matchUrl(System.String,System.String)">
+<summary>
+ Matches a url from the path specification.
+</summary>
+</member>
+<member name="M:Frank.Routing.matchMethod(System.String,System.String)">
+<summary>
+ Matches a target HTTP method or any method.
+</summary>
+</member>
+<member name="M:Frank.Routing.|Match|_|(System.String,System.String)">
+<summary>
+ Pulled from &lt;see href=&quot;http://www.markhneedham.com/blog/2009/05/10/f-regular-expressionsactive-patterns/&quot; /&gt;.
+</summary>
+</member>
+<member name="T:Frank.Routing">
+
+</member>
+</members>
+</doc>

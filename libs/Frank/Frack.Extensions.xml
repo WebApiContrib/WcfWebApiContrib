@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Frack.Extensions</name></assembly>
+<members>
+<member name="M:Frack.Middlewares.methodOverride(Microsoft.FSharp.Core.FSharpFunc`2{System.Collections.Generic.IDictionary{System.String,Frack.Core.Value},System.Tuple`3{System.Int32,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.Byte}}},System.Collections.Generic.IDictionary{System.String,Frack.Core.Value})">
+<summary>
+ Intercepts the environment and checks for use of X_HTTP_METHOD_OVERRIDE.
+</summary>
+</member>
+<member name="M:Frack.Middlewares.head(Microsoft.FSharp.Core.FSharpFunc`2{System.Collections.Generic.IDictionary{System.String,Frack.Core.Value},System.Tuple`3{System.Int32,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.Byte}}},System.Collections.Generic.IDictionary{System.String,Frack.Core.Value})">
+<summary>
+ Intercepts a request using the HEAD method and strips away the returned body from a GET response.
+</summary>
+</member>
+<member name="M:Frack.Middlewares.printEnvironment(Microsoft.FSharp.Core.FSharpFunc`2{System.Collections.Generic.IDictionary{System.String,Frack.Core.Value},System.Tuple`3{System.Int32,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.Byte}}},System.Collections.Generic.IDictionary{System.String,Frack.Core.Value})">
+<summary>
+ Returns a formatted list of the environment.
+</summary>
+</member>
+<member name="T:Frack.Middlewares">
+
+</member>
+<member name="M:Frack.Request.fromFrack(System.Collections.Generic.IDictionary{System.String,Frack.Core.Value})">
+<summary>
+ Creates an HttpRequestMessage from a Frack.Env.
+</summary>
+</member>
+<member name="M:Frack.Request.parseFormUrlEncoded(System.Collections.Generic.IEnumerable{System.Byte})">
+<summary>
+ Parses the input stream for x-http-form-urlencoded values into an IDictionary&lt;string,string&gt;.
+</summary>
+</member>
+<member name="M:Frack.Request.parseQueryString(System.String)">
+<summary>
+ Parses the query string into an IDictionary&lt;string,string&gt;.
+</summary>
+</member>
+<member name="M:Frack.Request.parseUrlEncodedString(System.String)">
+<summary>
+ Parses the url encoded string into an IDictionary&lt;string,string&gt;.
+</summary>
+</member>
+<member name="M:Frack.Request.op_BarDivide(System.Char,System.String)">
+<summary>
+ Creates a tuple from the first two values returned from a string split on the specified split character.
+</summary>
+</member>
+<member name="M:Frack.Request.decodeUrl(System.String)">
+<summary>
+ Decodes url encoded values.
+</summary>
+</member>
+<member name="M:Frack.Request.parseHeaders(System.Collections.Generic.IDictionary{System.String,Frack.Core.Value})">
+<summary>
+ Parses the headers from the Frack.Env into Microsoft.Http.Headers.RequestHeaders.
+</summary>
+</member>
+<member name="M:Frack.Request.parseHeader(System.Collections.Generic.KeyValuePair{System.String,Frack.Core.Value})">
+<summary>
+ Tests a key value pair and returns Some(header, value) for true header values; otherwise None.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="T:Frack.Request">
+
+</member>
+<member name="M:Frack.Response.toFrack(Microsoft.Http.HttpResponseMessage)">
+<summary>
+ Creates a Frack response from a Microsoft.Http.HttpResponseMessage
+</summary>
+</member>
+<member name="T:Frack.Response">
+
+</member>
+</members>
+</doc>
