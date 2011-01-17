@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using Microsoft.Http;
 
 namespace SelfhostedServer.ServiceContracts
 {
@@ -53,14 +53,14 @@ namespace SelfhostedServer.ServiceContracts
 
         private static void Map(HttpResponseMessage to, HttpResponseMessage from) {
             to.StatusCode = from.StatusCode;
-            to.Method = from.Method;
-            to.Uri = from.Uri;
-            to.Headers = from.Headers;
-            to.Content = from.Content;
-            to.Properties.Clear();
-            foreach (object property in from.Properties) {
-                to.Properties.Add(property);
+
+            to.Headers.Clear();
+            foreach (var header in from.Headers)
+            {
+                to.Headers.Add(header.Key, header.Value);
             }
+
+            to.Content = from.Content;
         }
 
         private void Handle(HttpRequestMessage request, HttpResponseMessage response) {

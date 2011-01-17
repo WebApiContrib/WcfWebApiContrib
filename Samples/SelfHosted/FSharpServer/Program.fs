@@ -1,7 +1,7 @@
 ﻿// Learn more about F# at http://fsharp.net
 module Main
 open System.Net
-open Microsoft.Http
+open System.Net.Http
 open Microsoft.ServiceModel.Http
 open FSharp.Http
 
@@ -11,7 +11,7 @@ let processors = [| (fun op -> new PlainTextProcessor(op, MediaTypeProcessorMode
 let app = fun request ->
   new HttpResponseMessage(
     StatusCode = HttpStatusCode.OK,
-    Content = HttpContent.Create("Howdy!", "text/plain"))
+    Content = new StringContent("Howdy!"))
 
 let host = new FuncHost(app, responseProcessors = processors, baseAddresses = [|baseurl|])
 host.Open()

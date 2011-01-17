@@ -44,17 +44,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Http">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Http.Extensions">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.Http.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.Http">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
+      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.WebHttp">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />

@@ -8,8 +8,8 @@ using SelfhostedServer.ProcessorFactories;
 using SelfhostedServer.ServiceContracts;
 using SelfhostedServer.Services;
 using ServiceLocator = SelfhostedServer.Tools.ServiceLocator;
-using Microsoft.Http;
 using System.Net;
+using System.Net.Http;
 
 namespace SelfhostedServer {
     class Program {
@@ -36,7 +36,7 @@ namespace SelfhostedServer {
             return unityContainer;
         }
 
-        private static SelfHostedWebHttpHost CreateHost<TServiceContract, TProcessorFactory>(IServiceLocator container, string baseUrl) where TProcessorFactory : HostConfiguration ,new() {
+        private static SelfHostedWebHttpHost CreateHost<TServiceContract, TProcessorFactory>(IServiceLocator container, string baseUrl) where TProcessorFactory : HttpHostConfiguration ,new() {
             var baseAddresses = new Uri[] { new Uri(baseUrl) };
 
             var configuration = new TProcessorFactory();
@@ -48,11 +48,11 @@ namespace SelfhostedServer {
         {
             object singletonInstance = new SingletonService(request => {
                 return new HttpResponseMessage {
-                    Content = HttpContent.Create("Hello World", "text/plain"),
+                    Content = new StringContent("Hello World", System.Text.Encoding.UTF8, "text/plain"),
                     StatusCode = HttpStatusCode.OK,
                 };
             });
-            HostConfiguration configuration = new DefaultProcessorFactory();
+            var configuration = new DefaultProcessorFactory();
             return new SelfHostedWebHttpHost(container, singletonInstance, configuration, new Uri(baseUrl));
         }
     }

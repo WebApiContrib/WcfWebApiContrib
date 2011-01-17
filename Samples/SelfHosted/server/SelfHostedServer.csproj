@@ -38,8 +38,8 @@
     <Reference Include="log4net">
       <HintPath>..\..\..\libs\Log4Net1.2.10\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Http">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.Http.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -49,11 +49,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\libs\Unity2.0\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.Http">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
+    <Reference Include="Microsoft.ServiceModel.Http, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.WebHttp">
-      <HintPath>..\..\..\codeplex\build\Debug\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+    <Reference Include="Microsoft.ServiceModel.WebHttp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

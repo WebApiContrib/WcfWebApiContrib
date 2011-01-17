@@ -1,8 +1,8 @@
 ﻿namespace FSharp.Http
 open System
+open System.Net.Http
 open System.ServiceModel
 open System.ServiceModel.Web
-open Microsoft.Http
 
 /// <summary>Creates a new instance of <see cref="AppResource"/>.</summary>
 /// <param name="app">The application to invoke.</param>
@@ -10,15 +10,11 @@ open Microsoft.Http
 [<ServiceContract>]
 [<ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)>]
 type AppResource(app:Func<HttpRequestMessage, HttpResponseMessage>) =
-  // Helper method to map the returned response to the response from WCF.
-  let map (r:HttpResponseMessage) (r':HttpResponseMessage) =
-    r.StatusCode <- r'.StatusCode
-    r.Method <- r'.Method
-    r.Uri <- r'.Uri
-    r.Headers <- r'.Headers 
-    r.Content <- r'.Content
-    r.Properties.Clear()
-    r'.Properties |> Seq.iter r.Properties.Add
+  let map (resp1:HttpResponseMessage) (resp2:HttpResponseMessage) =
+    resp1.StatusCode <- resp2.StatusCode
+    resp1.Headers.Clear()
+    resp2.Headers |> Seq.iter (fun (KeyValue(k,v)) -> resp1.Headers.Add(k,v))
+    resp1.Content <- resp2.Content
 
   let handle request response = let response' = app.Invoke(request) in map response response'
 

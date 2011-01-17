@@ -7,7 +7,7 @@ namespace SelfhostedServer.Host {
     public class DIHttpEndpointBehaviour : HttpEndpointBehavior {
         private readonly IServiceLocator _ServiceLocator;
 
-        public DIHttpEndpointBehaviour(IServiceLocator serviceLocator, HostConfiguration configuration) : base(configuration) {
+        public DIHttpEndpointBehaviour(IServiceLocator serviceLocator, HttpHostConfiguration configuration) : base(configuration) {
             _ServiceLocator = serviceLocator;
         }
 

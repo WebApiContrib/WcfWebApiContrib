@@ -12,7 +12,7 @@ namespace SelfhostedServer.Host {
                 
             }
 
-            public SelfHostedWebHttpHost(IServiceLocator serviceLocator, Type serviceType, HostConfiguration processorFactory, params Uri[] baseAddresses)
+            public SelfHostedWebHttpHost(IServiceLocator serviceLocator, Type serviceType, HttpHostConfiguration processorFactory, params Uri[] baseAddresses)
                 : base(serviceType, baseAddresses) {
                 _ServiceLocator = serviceLocator;
 
@@ -21,7 +21,7 @@ namespace SelfhostedServer.Host {
                 }
             }
 
-            public SelfHostedWebHttpHost(IServiceLocator serviceLocator, object singletonInstance, HostConfiguration processorFactory, params Uri[] baseAddresses)
+            public SelfHostedWebHttpHost(IServiceLocator serviceLocator, object singletonInstance, HttpHostConfiguration processorFactory, params Uri[] baseAddresses)
                 : base(singletonInstance, baseAddresses) {
                 _ServiceLocator = serviceLocator;
 
@@ -30,7 +30,7 @@ namespace SelfhostedServer.Host {
                 }
             }
 
-            private void ConfigureEndpoint(Type serviceType, Uri baseAddress, HostConfiguration processorFactory) {
+            private void ConfigureEndpoint(Type serviceType, Uri baseAddress, HttpHostConfiguration processorFactory) {
                 var endpoint = this.AddServiceEndpoint(serviceType, new HttpMessageBinding(), baseAddress);
                 endpoint.Behaviors.Add(new DIHttpEndpointBehaviour(_ServiceLocator, processorFactory));
             }
