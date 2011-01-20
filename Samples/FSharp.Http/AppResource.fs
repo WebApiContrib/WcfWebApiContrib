@@ -38,5 +38,26 @@ type AppResource(app:Application) =
   /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
   /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
   [<OperationContract>]
+  [<WebInvoke(UriTemplate="*", Method="POST")>]
+  member x.Post(request, response:HttpResponseMessage) = handle request response
+
+  /// <summary>Invokes the application with the specified GET <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<OperationContract>]
+  [<WebInvoke(UriTemplate="*", Method="PUT")>]
+  member x.Put(request, response:HttpResponseMessage) = handle request response
+
+  /// <summary>Invokes the application with the specified GET <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<OperationContract>]
+  [<WebInvoke(UriTemplate="*", Method="DELETE")>]
+  member x.Delete(request, response:HttpResponseMessage) = handle request response
+
+  /// <summary>Invokes the application with the specified GET <paramref name="request"/>.</summary>
+  /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+  /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
+  [<OperationContract>]
   [<WebInvoke(UriTemplate="*", Method="*")>]
   member x.Invoke(request, response:HttpResponseMessage) = handle request response

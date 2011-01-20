@@ -71,7 +71,6 @@
     <Compile Include="Host\DependencyInjectionInstanceProvider.cs" />
     <Compile Include="Host\DIHttpEndpointBehaviour.cs" />
     <Compile Include="Processors\LoggingProcessor.cs" />
-    <Compile Include="ServiceContracts\SingletonService.cs" />
     <Compile Include="Services\W3cPatternLayout.cs" />
     <Compile Include="Tools\ServiceLocator.cs" />
     <Compile Include="Services\ILogger.cs" />

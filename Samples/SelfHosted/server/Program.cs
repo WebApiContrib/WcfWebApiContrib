@@ -18,7 +18,6 @@ namespace SelfhostedServer {
 
             var baseurl = "http://localhost:1000/";
             SelfHostedWebHttpHost host = CreateHost<FooService, DefaultProcessorFactory>(serviceLocator, baseurl);
-            //SelfHostedWebHttpHost host = CreateSingletonHost(serviceLocator, baseurl);
             host.Open();
 
             Console.WriteLine("Host open.  Hit enter to exit...");
@@ -42,18 +41,6 @@ namespace SelfhostedServer {
             var configuration = new TProcessorFactory();
 
             return new SelfHostedWebHttpHost(container, typeof(TServiceContract), configuration, baseAddresses);
-        }
-
-        private static SelfHostedWebHttpHost CreateSingletonHost(IServiceLocator container, string baseUrl)
-        {
-            object singletonInstance = new SingletonService(request => {
-                return new HttpResponseMessage {
-                    Content = new StringContent("Hello World", System.Text.Encoding.UTF8, "text/plain"),
-                    StatusCode = HttpStatusCode.OK,
-                };
-            });
-            var configuration = new DefaultProcessorFactory();
-            return new SelfHostedWebHttpHost(container, singletonInstance, configuration, new Uri(baseUrl));
         }
     }
 }
