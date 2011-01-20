@@ -32,17 +32,17 @@
     <DocumentationFile>bin\Release\FSharp.Http.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Net.Http">
-      <HintPath>..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
+      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.Http">
-      <HintPath>..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
+      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.WebHttp">
-      <HintPath>..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -50,6 +50,7 @@
     <Reference Include="System.ServiceModel.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Owin.fs" />
     <Compile Include="Processor.fs" />
     <Compile Include="FuncConfiguration.fs" />
     <Compile Include="AppResource.fs" />

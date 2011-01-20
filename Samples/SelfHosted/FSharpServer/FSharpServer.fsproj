@@ -63,7 +63,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FSharp.Http\FSharp.Http.fsproj">
+    <ProjectReference Include="..\..\FSharp.Http\FSharp.Http.fsproj">
       <Name>FSharp.Http</Name>
       <Project>{b6f43dbf-5729-418f-aacd-dc38d21eab2d}</Project>
       <Private>True</Private>
