@@ -1,0 +1,101 @@
+﻿<UserControl
+	x:Class="QueryableSilverlight.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+	
+	<UserControl.Resources>
+		<Style x:Key="Local_Button" TargetType="Button">
+			<Setter Property="Margin" Value="5" />
+		</Style>
+
+		<Style x:Key="Local_TextBox" TargetType="TextBox">
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="Width" Value="100" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+		</Style>
+
+		<DataTemplate x:Key="Local_PersonTemplate">
+			<StackPanel
+				Orientation="Horizontal">
+				<TextBlock
+					Text="{Binding ID}"/>
+				<TextBlock
+					Text=" "/>
+				<TextBlock
+					Text="{Binding Name}"/>
+			</StackPanel>
+		</DataTemplate>
+	</UserControl.Resources>
+	
+    <Grid x:Name="LayoutRoot" Background="White" Margin="30">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Button
+				Content="Get All People"
+				Style="{StaticResource Local_Button}"
+				Click="GetAllPeople"/>
+			<Button
+				Content="Get Person With ID"
+				Style="{StaticResource Local_Button}"
+				Click="GetPersonWithID"
+				Grid.Row="1"/>
+			<TextBox
+				x:Name="uxPersonID"
+				Style="{StaticResource Local_TextBox}"
+				Grid.Row="1"
+				Grid.Column="1"/>
+			<Button
+				Content="Get Top 3 People"
+				Style="{StaticResource Local_Button}"
+				Click="GetTop3People"
+				Grid.Row="2"/>
+			<Button
+				Content="Get 3rd Person"
+				Style="{StaticResource Local_Button}"
+				Click="Get3rdPerson"
+				Grid.Row="3"/>
+			<Button
+				Content="Create Person"
+				Style="{StaticResource Local_Button}"
+				Click="CreatePerson"
+				Grid.Row="4"/>
+			<TextBox
+				x:Name="personName"
+				Margin="5"
+				Grid.Row="4"
+				Grid.Column="1"/>
+		</Grid>
+		
+		<TextBox
+			x:Name="uxQueryText"
+			Style="{StaticResource Local_TextBox}"
+			Width="300"
+			IsReadOnly="True"
+			Grid.Row="1"/>
+		
+		<ListBox
+			x:Name="uxPeople"
+			ItemTemplate="{StaticResource Local_PersonTemplate}"
+			Margin="5,10,5,0"
+			Grid.Row="2"/>
+	</Grid>
+</UserControl>
