@@ -8,6 +8,10 @@ open System.ServiceModel.Web
 
 // NOTE: This is not the actual OWIN definition of an application, just a close approximation.
 type Application = Action<HttpRequestMessage, Action<string, seq<KeyValuePair<string,string>>, seq<obj>>, Action<exn>>
+module Owin =
+  let fromAsync (app:HttpRequestMessage -> Async<string * seq<KeyValuePair<string,string>> * seq<obj>>) : Application =
+    Action<_,_,_>(fun request (onCompleted:Action<string, seq<KeyValuePair<string,string>>, seq<obj>>) (onError:Action<exn>) ->
+      Async.StartWithContinuations(app request, onCompleted.Invoke, onError.Invoke, onError.Invoke))
 
 /// <summary>Creates a new instance of <see cref="Processor"/>.</summary>
 /// <param name="onExecute">The function to execute in the pipeline.</param>
@@ -69,6 +73,7 @@ type AppResource(app:Application) =
         response.Content <- new ByteArrayContent(body |> Seq.map (fun o -> o :?> byte) |> Array.ofSeq)),
       Action<_>(fun e -> Console.WriteLine(e)))
 
+
   /// <summary>Invokes the application with the specified GET <paramref name="request"/>.</summary>
   /// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
   /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
@@ -125,6 +130,6 @@ type FuncHost(app, ?requestProcessors, ?responseProcessors, ?baseAddresses) =
   /// <param name="requestProcessors">The processors to run when receiving the request.</param>
   /// <param name="responseProcessors">The processors to run when sending the response.</param>
   /// <param name="baseAddresses">The base addresses to host (defaults to an empty array).</param>
-  new (app, ?requestProcessors, ?responseProcessors, ?baseAddresses) =
+  new (app: HttpRequestMessage -> Async<string * seq<KeyValuePair<string,string>> * seq<obj>>, ?requestProcessors, ?responseProcessors, ?baseAddresses) =
     let baseUris = defaultArg baseAddresses [||] |> Array.map (fun baseAddress -> Uri(baseAddress))
-    new FuncHost(app, ?requestProcessors = requestProcessors, ?responseProcessors = responseProcessors, baseAddresses = baseUris)
+    new FuncHost(Owin.fromAsync app, ?requestProcessors = requestProcessors, ?responseProcessors = responseProcessors, baseAddresses = baseUris)
