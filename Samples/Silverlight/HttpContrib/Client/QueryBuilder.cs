@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Text;
 
 	public class QueryBuilder
@@ -11,17 +12,24 @@
 		private const string TOP = "$top=";
 		private const string WHERE = "$filter=";
 
-		private readonly string _resourceName;
-		private readonly List<string> _filters;
+		private readonly List<Filter> _filters;
 
 		public QueryBuilder(string resourceName)
 		{
-			_filters = new List<string>();
+			_filters = new List<Filter>();
 
-			_resourceName = resourceName;
+			if (!String.IsNullOrEmpty(resourceName))
+			{
+				_filters.Add(new Filter { IsResourcePath = true, Value = resourceName });
+			}
 		}
 
-		public void Where(string property, object value)
+		public void Delete(object key)
+		{
+			_filters.Add(new Filter { IsResourcePath = true, Value = key.ToString() });
+		}
+
+        public void Where(string property, object value)
 		{
 			StringBuilder builder = new StringBuilder();
 
@@ -47,40 +55,61 @@
 					break;
 			}
 
-			_filters.Add(builder.ToString());
+			_filters.Add(new Filter { Value = builder.ToString() });
 		}
 
 		public void Take(int count)
 		{
-			_filters.Add(String.Format("{0}{1}", TOP, count));
+			_filters.Add(new Filter { Value = String.Format("{0}{1}", TOP, count) });
 		}
 
 		public void Skip(int count)
 		{
-			_filters.Add(String.Format("{0}{1}", SKIP, count));
+			_filters.Add(new Filter { Value = String.Format("{0}{1}", SKIP, count) });
 		}
 
 		public string Build()
 		{
+			return this.BuildPath() + this.BuildQuery();
+		}
+
+		public string BuildQuery()
+		{
 			StringBuilder builder = new StringBuilder();
 
-			if (!String.IsNullOrEmpty(_resourceName))
-			{
-				builder.Append(_resourceName);
-			}
+			var filters = _filters.Where(f => !f.IsResourcePath).ToList();
 
-			for (int i = 0; i < _filters.Count; i++)
+			for (int i = 0; i < filters.Count; i++)
 			{
-				if (i == 0)
-					builder.Append("?");
-
 				if (i != 0)
 					builder.Append("&");
 
-				builder.Append(_filters[i]);
+				builder.Append(filters[i].Value);
 			}
 
 			return builder.ToString();
+		}
+
+		public string BuildPath()
+		{
+			UriBuilder builder = new UriBuilder();
+
+			var keys = _filters.Where(f => f.IsResourcePath).ToList();
+
+			for (int i = 0; i < keys.Count; i++)
+			{
+				if (i > 0)
+					builder.Path += "/";
+				builder.Path += keys[i].Value;
+			}
+
+			return builder.ToString().Replace("http://localhost/", "");
+		}
+
+		private class Filter
+		{
+			public bool IsResourcePath { get; set; }
+			public string Value { get; set; }
 		}
 	}
 }

@@ -2,7 +2,9 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Globalization;
 	using System.Linq;
+	using System.Net.Http;
 	using System.ServiceModel;
 	using System.ServiceModel.Activation;
 	using System.ServiceModel.Web;
@@ -39,6 +41,28 @@
 			person.ID = _totalPeople++;
 			_people.Add(person);
 			return person;
+		}
+
+		[WebInvoke(UriTemplate = "{id}", Method = "PUT")]
+		public Person Put(string id, Person person, HttpResponseMessage response)
+		{
+			var intId = int.Parse(id, CultureInfo.InvariantCulture);
+			Person localPerson = _people.First(p => p.ID == intId);
+
+			localPerson.Name = person.Name;
+
+			return localPerson;
+		}
+
+		[WebInvoke(UriTemplate = "{id}", Method = "DELETE")]
+		public Person Delete(string id)
+		{
+			var intId = int.Parse(id, CultureInfo.InvariantCulture);
+			Person deleted = _people.First(p => p.ID == intId);
+
+			_people.Remove(deleted);
+
+			return deleted;
 		}
 	}
 }

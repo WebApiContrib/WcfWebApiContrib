@@ -9,13 +9,13 @@
 	
 	public static class HttpExtensions
 	{
-		public static IEnumerable<T> ReadAsObjectList<T>(this HttpResponseMessage response)
+		public static T ReadAsObject<T>(this HttpResponseMessage response)
 		{
 			if (IsJsonContent(response))
-				return DeserializeFromJson<IEnumerable<T>>(response);
+				return DeserializeFromJson<T>(response);
 
 			if (IsXmlContent(response))
-				return DeserializeFromXml<IEnumerable<T>>(response);
+				return DeserializeFromXml<T>(response);
 
 			throw new NotSupportedException("The response type is not supported.");
 		}

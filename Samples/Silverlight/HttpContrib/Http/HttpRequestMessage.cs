@@ -21,6 +21,8 @@ namespace HttpContrib.Http
 		public string Method { get; set; }
 		public Uri RequestUri { get; set; }
 		public string Accept { get; set; }
+		public string IfMatch { get; set; }
+		public string IfNoneMatch { get; set; }
 
 		public Stream Content { get; set; }
 	}

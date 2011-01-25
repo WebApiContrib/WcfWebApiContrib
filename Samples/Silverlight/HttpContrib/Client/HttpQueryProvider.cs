@@ -7,7 +7,8 @@
 
 	public interface IHttpQueryProvider
 	{
-		Task<IEnumerable<T>> ExecuteAsync<T>(string query);
+		Task<T> ExecuteSingleAsync<T>(HttpQuery<T> query);
+		Task<IEnumerable<T>> ExecuteAsync<T>(HttpQuery<T> query);
 	}
 
 	public class HttpQueryProvider : IHttpQueryProvider
@@ -19,15 +20,24 @@
 			_client = client;
 		}
 
-		public Task<IEnumerable<T>> ExecuteAsync<T>(string requestUri)
+		public Task<IEnumerable<T>> ExecuteAsync<T>(HttpQuery<T> query)
 		{
-			var tcs = new TaskCompletionSource<IEnumerable<T>>();
+			return ExecuteAsyncInternal<T, IEnumerable<T>>(query);
+		}
+
+		public Task<T> ExecuteSingleAsync<T>(HttpQuery<T> query)
+		{
+			return ExecuteAsyncInternal<T, T>(query);
+		}
+
+		private Task<TResult> ExecuteAsyncInternal<T,TResult>(HttpQuery<T> query)
+		{
+			var tcs = new TaskCompletionSource<TResult>();
 
 			HttpRequestMessage request = new HttpRequestMessage();
+			request.Method = query.Method;
 
-			Uri fullUri = new Uri(_client.BaseAddress, requestUri);
-
-			request.RequestUri = fullUri;
+			request.RequestUri = query.GetFullyQualifiedQuery(this._client);
 			request.Accept = _client.Accept;
 
 			var requestTask = _client.SendAsync(request);
@@ -42,7 +52,7 @@
 					}
 					else
 					{
-						var result = response.Result.ReadAsObjectList<T>();
+						var result = response.Result.ReadAsObject<TResult>();
 
 						tcs.TrySetResult(result);
 					}

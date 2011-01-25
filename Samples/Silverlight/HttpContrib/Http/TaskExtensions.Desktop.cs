@@ -10,12 +10,12 @@
 	{
 		public static Task<Stream> GetRequestStreamAsync(this WebRequest source)
 		{
-			return Task<Stream>.Factory.FromAsync(source.BeginGetRequestStream, source.EndGetRequestStream, null);
+			return Task<Stream>.Factory.FromAsync(source.BeginGetRequestStream, source.EndGetRequestStream, source);
 		}
 
 		public static Task<WebResponse> GetResponseAsync(this WebRequest source)
 		{
-			return Task<WebResponse>.Factory.FromAsync(source.BeginGetResponse, source.EndGetResponse, null);
+			return Task<WebResponse>.Factory.FromAsync(source.BeginGetResponse, source.EndGetResponse, source);
 		}
 
 		public static Task CopyToAsync(this Stream source, Stream destination)

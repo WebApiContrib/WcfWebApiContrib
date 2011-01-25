@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
+	using HttpContrib.Http;
 
 	public class HttpQuery<T>
 	{
@@ -16,17 +17,41 @@
 
 		public HttpQuery(IHttpQueryProvider provider, string resourceName)
 		{
+			this.Method = HttpMethod.Get;
 			this.QueryBuilder = new QueryBuilder(resourceName);
 
 			_provider = provider;
 			_resourceName = resourceName;
 		}
 
-		internal QueryBuilder QueryBuilder { get; private set; }
+		public string Method { get; set; }
+
+		public string Query
+		{
+			get
+			{
+				return this.QueryBuilder.BuildQuery();
+			}
+		}
+
+		public string Path
+		{
+			get
+			{
+				return this.QueryBuilder.BuildPath();
+			}
+		}
+
+        internal QueryBuilder QueryBuilder { get; private set; }
+
+		public Task<T> ExecuteSingleAsync()
+		{
+			return this._provider.ExecuteSingleAsync<T>(this);
+		}
 
 		public Task<IEnumerable<T>> ExecuteAsync()
 		{
-			return this._provider.ExecuteAsync<T>(this.QueryBuilder.Build());
+			return this._provider.ExecuteAsync<T>(this);
 		}
 
 		public override string ToString()

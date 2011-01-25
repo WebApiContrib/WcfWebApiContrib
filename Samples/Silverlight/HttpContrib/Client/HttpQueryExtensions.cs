@@ -1,16 +1,28 @@
 ﻿namespace HttpContrib.Client
 {
 	using System;
-	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Reflection;
 	using HttpContrib.Http;
 
 	public static class HttpQueryExtensions
 	{
-		public static HttpQuery<T> AsHttpQuery<T>(this IQueryable<T> queryable)
+		public static HttpQuery<T> Save<T>(this HttpQuery<T> query, T value)
 		{
-			return (HttpQuery<T>)queryable;
+			throw new NotImplementedException();
+
+			query.Method = HttpMethod.Post;
+
+			return query;
+		}
+
+		public static HttpQuery<T> Delete<T, TValue>(this HttpQuery<T> query, TValue value)
+		{
+			query.QueryBuilder.Delete(value);
+
+			query.Method = HttpMethod.Delete;
+
+			return query;
 		}
 
 		public static HttpQuery<T> Where<T, TProperty, TValue>(this HttpQuery<T> query, Expression<Func<T, TProperty>> property, TValue value)
@@ -39,18 +51,28 @@
 			return query;
 		}
 
-		public static string GetFullyQualifiedQuery<T>(this HttpQuery<T> query, SimpleHttpClient client)
+		public static Uri GetFullyQualifiedQuery<T>(this HttpQuery<T> query, SimpleHttpClient client)
 		{
-			Uri uri = new Uri(client.BaseAddress, query.ToString());
-
-			return uri.ToString();
+			return GetFullyQualifiedQueryInternal(client, query);
 		}
 
-		public static string GetFullyQualifiedQuery<T>(this SimpleHttpClient client, HttpQuery<T> query)
+		public static Uri GetFullyQualifiedQuery<T>(this SimpleHttpClient client, HttpQuery<T> query)
 		{
-			Uri uri = new Uri(client.BaseAddress, query.ToString());
+			return GetFullyQualifiedQueryInternal(client, query);
+		}
 
-			return uri.ToString();
+		private static Uri GetFullyQualifiedQueryInternal<T>(SimpleHttpClient client, HttpQuery<T> query)
+		{
+			string baseAddress = client.BaseAddress.ToString();
+
+			if (!String.IsNullOrEmpty(query.Path) && !client.BaseAddress.ToString().EndsWith("/"))
+				baseAddress += "/";
+
+			UriBuilder uriBuilder = new UriBuilder(new Uri(baseAddress));
+			uriBuilder.Path += query.Path;
+			uriBuilder.Query += query.Query;
+
+			return uriBuilder.Uri;
 		}
 
 		/// <summary>

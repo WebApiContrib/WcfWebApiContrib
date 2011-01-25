@@ -48,9 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AsyncCtpLibrary_Silverlight">
-      <HintPath>..\..\..\Lib\Silverlight\AsyncCtpLibrary_Silverlight.dll</HintPath>
-    </Reference>
+    <Reference Include="AsyncCtpLibrary_Silverlight, Version=1.0.3951.36516, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />

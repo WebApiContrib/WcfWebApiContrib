@@ -3,7 +3,6 @@
 	using System;
 	using System.IO;
 	using System.Net;
-	using System.Text;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using HttpContrib.Client;
@@ -57,50 +56,50 @@
 
 			ThreadPool.QueueUserWorkItem(w =>
 			{
-				if (request.Method == HttpMethod.Post)
+				if (request.Method == HttpMethod.Post || request.Method == HttpMethod.Put)
 				{
 					PostContent(request, tcs);
 				}
 				else
 				{
-					HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(request.RequestUri);
-					httpRequest.Method = request.Method;
-					httpRequest.Accept = request.Accept;
-
-					HandleResponse(httpRequest, tcs);
+					GetContent(request, tcs);
 				}
 			});
 
 			return tcs.Task;
 		}
 
+		private void GetContent(HttpRequestMessage request, TaskCompletionSource<HttpResponseMessage> tcs)
+		{
+			HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(request.RequestUri);
+			httpRequest.Method = request.Method;
+			httpRequest.Accept = request.Accept;
+
+			if(!String.IsNullOrEmpty(request.IfMatch))
+				httpRequest.Headers[HttpRequestHeader.IfMatch] = request.IfMatch;
+			if (!String.IsNullOrEmpty(request.IfNoneMatch))
+				httpRequest.Headers[HttpRequestHeader.IfNoneMatch] = request.IfNoneMatch;
+
+			HandleResponse(httpRequest, tcs);
+		}
+
 		private void PostContent(HttpRequestMessage request, TaskCompletionSource<HttpResponseMessage> tcs)
 		{
-			using (StreamReader reader = new StreamReader(request.Content))
+			HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(request.RequestUri);
+			httpRequest.Method = request.Method;
+			httpRequest.Accept = request.Accept;
+			httpRequest.ContentType = request.ContentType;
+
+			var getStreamTask = httpRequest.GetRequestStreamAsync();
+			getStreamTask.ContinueWith(t =>
 			{
-				string content = reader.ReadToEnd();
+				CopyStream(request.Content, t.Result);
 
-				WebClient client = new WebClient();
-				client.Headers["Accept"] = request.Accept;
-				client.Headers["Content-Type"] = request.ContentType;
-				client.Encoding = Encoding.UTF8;
-				client.UploadStringCompleted += (s, e) =>
-				{
-					if (e.Error != null)
-					{
-						tcs.TrySetException(e.Error);
-					}
-					else
-					{
-						var buffer = Encoding.UTF8.GetBytes(e.Result);
-						MemoryStream responseStream = new MemoryStream(buffer);
-						HttpResponseMessage response = new HttpResponseMessage(request.ContentType, responseStream);
+				t.Result.Flush();
+				t.Result.Close();
 
-						tcs.TrySetResult(response);
-					}
-				};
-				client.UploadStringAsync(request.RequestUri, content);
-			}
+				HandleResponse(httpRequest, tcs);
+			});
 		}
 
 		private void HandleResponse(HttpWebRequest request, TaskCompletionSource<HttpResponseMessage> tcs)
@@ -109,11 +108,30 @@
 
 			responseTask.ContinueWith(responseResult =>
 			{
-				HttpWebResponse webResponse = (HttpWebResponse)responseResult.Result;
-				HttpResponseMessage response = new HttpWebResponseMessage(webResponse);
+				if (responseResult.IsFaulted)
+				{
+					tcs.TrySetException(responseResult.Exception);
+				}
+				else
+				{
+					HttpWebResponse webResponse = (HttpWebResponse)responseResult.Result;
+					HttpResponseMessage response = new HttpWebResponseMessage(webResponse);
 
-				tcs.TrySetResult(response);
+					tcs.TrySetResult(response);
+				}
 			});
+		}
+
+		private static void CopyStream(Stream input, Stream output)
+		{
+			byte[] buffer = new byte[32768];
+			while (true)
+			{
+				int read = input.Read(buffer, 0, buffer.Length);
+				if (read <= 0)
+					return;
+				output.Write(buffer, 0, read);
+			}
 		}
 	}
 }

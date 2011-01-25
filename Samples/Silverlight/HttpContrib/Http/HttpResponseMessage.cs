@@ -26,6 +26,14 @@ namespace HttpContrib.Http
 			}
 		}
 
+		public virtual string ETag
+		{
+			get
+			{
+				return null;
+			}
+		}
+
 		public virtual Stream GetResponseStream()
 		{
 			return _responseStream;
@@ -46,6 +54,14 @@ namespace HttpContrib.Http
 			get
 			{
 				return _webResponse.ContentType;
+			}
+		}
+
+		public override string ETag
+		{
+			get
+			{
+				return _webResponse.Headers["ETag"];
 			}
 		}
 
