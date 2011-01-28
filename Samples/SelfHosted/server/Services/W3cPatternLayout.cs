@@ -11,7 +11,7 @@ namespace SelfhostedServer.Services {
             }
             public override string Header {
                 get {
-                    return "#Software: TMServer " + Environment.NewLine
+                    return "#Software: SelfHostedServer " + Environment.NewLine
                         + "#Version 1.0" + Environment.NewLine
                         + "#Date: " + DateTime.Today.ToString("yyyy-MM-dd") + Environment.NewLine
                         + "#Fields: time c-ip cs-method cs-uri-stem sc-status time-taken bytes" + Environment.NewLine;
