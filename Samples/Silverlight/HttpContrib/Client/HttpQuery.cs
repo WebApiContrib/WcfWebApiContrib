@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using HttpContrib.Http;
 
@@ -25,6 +26,7 @@
 		}
 
 		public string Method { get; set; }
+		public T Content { get; set; }
 
 		public string Query
 		{
@@ -57,6 +59,58 @@
 		public override string ToString()
 		{
 			return this.QueryBuilder.Build();
+		}
+
+		public virtual HttpQuery<T> Create(T value)
+		{
+			this.Method = HttpMethod.Post;
+			this.Content = value;
+
+			return this;
+		}
+
+		public virtual HttpQuery<T> Update(object key, T value)
+		{
+			this.QueryBuilder.Update(key);
+			this.Method = HttpMethod.Put;
+			this.Content = value;
+
+			return this;
+		}
+
+		public virtual HttpQuery<T> Delete<TValue>(TValue value)
+		{
+			this.QueryBuilder.Delete(value);
+
+			this.Method = HttpMethod.Delete;
+
+			return this;
+		}
+
+		public virtual HttpQuery<T> Where<TProperty, TValue>(Expression<Func<T, TProperty>> property, TValue value)
+		{
+			return WhereInternal(property, value);
+		}
+
+		public virtual HttpQuery<T> Take(int count)
+		{
+			this.QueryBuilder.Take(count);
+
+			return this;
+		}
+
+		public virtual HttpQuery<T> Skip(int count)
+		{
+			this.QueryBuilder.Skip(count);
+
+			return this;
+		}
+
+		private HttpQuery<T> WhereInternal<TProperty>(Expression<Func<T, TProperty>> property, object value)
+		{
+			this.QueryBuilder.Where(property.GetMemberInfo().Name, value);
+
+			return this;
 		}
 	}
 }

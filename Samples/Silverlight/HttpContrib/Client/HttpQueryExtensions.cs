@@ -7,50 +7,6 @@
 
 	public static class HttpQueryExtensions
 	{
-		public static HttpQuery<T> Save<T>(this HttpQuery<T> query, T value)
-		{
-			throw new NotImplementedException();
-
-			query.Method = HttpMethod.Post;
-
-			return query;
-		}
-
-		public static HttpQuery<T> Delete<T, TValue>(this HttpQuery<T> query, TValue value)
-		{
-			query.QueryBuilder.Delete(value);
-
-			query.Method = HttpMethod.Delete;
-
-			return query;
-		}
-
-		public static HttpQuery<T> Where<T, TProperty, TValue>(this HttpQuery<T> query, Expression<Func<T, TProperty>> property, TValue value)
-		{
-			return WhereInternal(query, property, value);
-		}
-
-		private static HttpQuery<T> WhereInternal<T, TProperty>(this HttpQuery<T> query, Expression<Func<T, TProperty>> property, object value)
-		{
-			query.QueryBuilder.Where(property.GetMemberInfo().Name, value);
-
-			return query;
-		}
-
-		public static HttpQuery<T> Take<T>(this HttpQuery<T> query, int count)
-		{
-			query.QueryBuilder.Take(count);
-
-			return query;
-		}
-
-		public static HttpQuery<T> Skip<T>(this HttpQuery<T> query, int count)
-		{
-			query.QueryBuilder.Skip(count);
-
-			return query;
-		}
-
 		public static Uri GetFullyQualifiedQuery<T>(this HttpQuery<T> query, SimpleHttpClient client)
 		{
 			return GetFullyQualifiedQueryInternal(client, query);

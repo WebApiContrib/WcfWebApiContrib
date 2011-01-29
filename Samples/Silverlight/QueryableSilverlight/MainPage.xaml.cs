@@ -132,28 +132,22 @@
 
 			SimpleHttpClient client = new SimpleHttpClient(uri.ToString());
 
-			var contact = new Person { ID = 5, Name = personName.Text };
+			var person = new Person { ID = 0, Name = personName.Text };
 
-			var stream = contact.WriteObjectAsXml();
+			var query = client.CreateQuery<Person>();
+			query.Create(person);
 
-			var request = new HttpRequestMessage(HttpMethod.Post);
-			request.Accept = MediaType.Xml;
-			request.ContentType = MediaType.Xml;
-			request.RequestUri = uri;
-			request.Content = stream;
+			var task = query.ExecuteSingleAsync();
 
-			var task = client.SendAsync(request);
 			task.ContinueWith(t =>
 			{
 				Execute.OnUIThread(() =>
 				{
-					var person = t.Result.ReadXmlAsObject<Person>();
-
-					if (person != null)
+					if (!t.IsFaulted && t.IsCompleted && t.Result != null)
 					{
-						Debug.WriteLine("Person: {0}", person);
+						Debug.WriteLine("Person: {0}", t.Result);
 
-						_people.Add(person);
+						_people.Add(t.Result);
 					}
 				});
 			});
@@ -181,6 +175,34 @@
 							Debug.WriteLine("Person: {0}", t.Result);
 
 							_people.Remove(_people.First(p => p.ID == t.Result.ID));
+						}
+					});
+				});
+			}
+		}
+
+		private void UpdatePerson(object sender, RoutedEventArgs e)
+		{
+			Person person = this.uxPeople.SelectedItem as Person;
+
+			if (person != null)
+			{
+				person.Name = DateTime.Now.ToString();
+
+				SimpleHttpClient client = new SimpleHttpClient("http://localhost:1182/people");
+
+				var query = client.CreateQuery<Person>().Update(person.ID, person);
+
+				uxQueryText.Text = query.GetFullyQualifiedQuery(client).ToString();
+
+				var task = query.ExecuteSingleAsync();
+				task.ContinueWith(t =>
+				{
+					Execute.OnUIThread(() =>
+					{
+						if (!t.IsFaulted && t.IsCompleted && t.Result != null)
+						{
+							Debug.WriteLine("Person: {0}", t.Result);
 						}
 					});
 				});

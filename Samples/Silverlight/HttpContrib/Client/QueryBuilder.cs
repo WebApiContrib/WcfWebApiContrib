@@ -24,7 +24,12 @@
 			}
 		}
 
-		public void Delete(object key)
+        public void Delete(object key)
+		{
+			_filters.Add(new Filter { IsResourcePath = true, Value = key.ToString() });
+		}
+
+		public void Update(object key)
 		{
 			_filters.Add(new Filter { IsResourcePath = true, Value = key.ToString() });
 		}

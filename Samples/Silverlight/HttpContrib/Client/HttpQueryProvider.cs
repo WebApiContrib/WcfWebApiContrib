@@ -38,7 +38,14 @@
 			request.Method = query.Method;
 
 			request.RequestUri = query.GetFullyQualifiedQuery(this._client);
-			request.Accept = _client.Accept;
+
+			if ((query.Method == HttpMethod.Post || query.Method == HttpMethod.Put)
+				&& query.Content != null)
+			{
+				request.Accept = MediaType.Xml;
+				request.ContentType = MediaType.Xml;
+				request.Content = query.Content.WriteObjectAsXml();
+			}
 
 			var requestTask = _client.SendAsync(request);
 
@@ -52,7 +59,12 @@
 					}
 					else
 					{
-						var result = response.Result.ReadAsObject<TResult>();
+						TResult result;
+
+						if ((query.Method == HttpMethod.Post || query.Method == HttpMethod.Put))
+							result = response.Result.ReadXmlAsObject<TResult>();
+						else
+							result = response.Result.ReadAsObject<TResult>();
 
 						tcs.TrySetResult(result);
 					}

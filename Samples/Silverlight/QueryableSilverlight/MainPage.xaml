@@ -44,6 +44,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
@@ -85,10 +86,15 @@
 				Grid.Row="4"
 				Grid.Column="1"/>
 			<Button
+				Content="Update Selected Person"
+				Style="{StaticResource Local_Button}"
+				Click="UpdatePerson"
+				Grid.Row="5"/>
+			<Button
 				Content="Delete Selected Person"
 				Style="{StaticResource Local_Button}"
 				Click="DeletePerson"
-				Grid.Row="5"/>
+				Grid.Row="6"/>
 		</Grid>
 		
 		<TextBox
