@@ -1,4 +1,13 @@
 ﻿module Main
+(* License
+ *
+ * Author: Ryan Riley <ryan.riley@panesofglass.org>
+ * Copyright (c) 2011, Ryan Riley.
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See LICENSE.txt for details.
+ *)
+
 open System
 open System.Collections.Generic
 open System.Net
