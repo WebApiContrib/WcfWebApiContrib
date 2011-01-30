@@ -56,7 +56,7 @@ namespace Http.Formatters
             string templateName = instance.GetType().Name;
             if (Nina.Configuration.Configure.IsDevelopment || !_cache.TryGetValue(templateName, out template))
             {
-                template = Nina.Configuration.Configure.Views.Engine.Compile(instance.GetType(), templateName);
+                template = Nina.Configuration.Configure.Views.Engine.Compile<object>(templateName);
                 _cache[templateName] = template;
             }
 
