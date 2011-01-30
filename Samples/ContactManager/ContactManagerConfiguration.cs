@@ -21,6 +21,7 @@ namespace ContactManager
     using Microsoft.ServiceModel.Http;
 
     using Nina.Configuration;
+    using Http.Formatters;
 
     public class ContactManagerConfiguration : HttpHostConfiguration, IProcessorProvider, IInstanceFactory
     {
@@ -34,13 +35,15 @@ namespace ContactManager
 
         public void RegisterRequestProcessorsForOperation(HttpOperationDescription operation, IList<Processor> processors, MediaTypeProcessorMode mode)
         {
-            processors.Add(new JsonProcessor(operation, mode));
+            processors.Add(new JsonNetProcessor(operation, mode));
+            processors.Add(new BsonProcessor(operation, mode));
             processors.Add(new FormUrlEncodedProcessor(operation, mode));
         }
 
         public void RegisterResponseProcessorsForOperation(HttpOperationDescription operation, IList<Processor> processors, MediaTypeProcessorMode mode)
         {
-            processors.Add(new JsonProcessor(operation, mode));
+            processors.Add(new JsonNetProcessor(operation, mode));
+            processors.Add(new BsonProcessor(operation, mode));
             processors.Add(new PngProcessor(operation, mode));
             processors.Add(new Http.Formatters.HtmlProcessor(operation, mode));
         }
