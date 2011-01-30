@@ -29,6 +29,8 @@ namespace Http.Formatters
     /// </remarks>
     public class HtmlProcessor : MediaTypeProcessor
     {
+        private static readonly IDictionary<string, ITemplate> _cache = new Dictionary<string, ITemplate>();
+
         public HtmlProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode)
             : base(operation, mode)
         {
@@ -59,11 +61,7 @@ namespace Http.Formatters
             }
 
             using (var sw = new System.IO.StreamWriter(stream))
-            {
                 template.Render(sw, instance);
-            }
         }
-
-        private static readonly IDictionary<string, ITemplate> _cache = new Dictionary<string, ITemplate>();
     }
 }
