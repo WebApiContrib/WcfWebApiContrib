@@ -148,7 +148,7 @@
     <None Include="Contact.haml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Formatters\Http.Formatters.Razor\Http.Formatters.csproj">
+    <ProjectReference Include="..\..\Formatters\Http.Formatters.csproj">
       <Project>{4B518094-4BE4-47EE-B2E0-E9534CFB2944}</Project>
       <Name>Http.Formatters</Name>
     </ProjectReference>

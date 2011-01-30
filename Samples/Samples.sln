@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfHostedServer", "SelfHos
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpServer", "SelfHosted\FSharpServer\FSharpServer.fsproj", "{69C9B749-3FFB-4301-9057-DC21A56722D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Formatters", "..\Formatters\Http.Formatters.Razor\Http.Formatters.csproj", "{4B518094-4BE4-47EE-B2E0-E9534CFB2944}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Formatters", "..\Formatters\Http.Formatters.csproj", "{4B518094-4BE4-47EE-B2E0-E9534CFB2944}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{3EC8A037-BC48-4297-82FD-85DA862F0653}"
 EndProject

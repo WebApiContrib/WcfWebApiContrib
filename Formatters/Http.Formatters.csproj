@@ -32,25 +32,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Net.Http">
-      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
+      <HintPath>..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.Http">
-      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
+      <HintPath>..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.WebHttp">
-      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+      <HintPath>..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="Nina.ViewEngines">
-      <HintPath>..\..\libs\Templating\Nina.ViewEngines.dll</HintPath>
+      <HintPath>..\libs\Templating\Nina.ViewEngines.dll</HintPath>
     </Reference>
     <Reference Include="Nina.ViewEngines.Razor">
-      <HintPath>..\..\libs\Templating\Nina.ViewEngines.Razor.dll</HintPath>
+      <HintPath>..\libs\Templating\Nina.ViewEngines.Razor.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine.Core">
-      <HintPath>..\..\libs\Templating\RazorEngine.Core.dll</HintPath>
+      <HintPath>..\libs\Templating\RazorEngine.Core.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine.Templates">
-      <HintPath>..\..\libs\Templating\RazorEngine.Templates.dll</HintPath>
+      <HintPath>..\libs\Templating\RazorEngine.Templates.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
