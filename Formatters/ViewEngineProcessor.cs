@@ -27,11 +27,11 @@ namespace Http.Formatters
     ///     Other supported view engines include NDango and NHaml. More are likely on the way.
     ///     <see href="https://github.com/panesofglass/nina/tree/templating">See my templating branch of the Nina project.</see>
     /// </remarks>
-    public class HtmlProcessor : MediaTypeProcessor
+    public class ViewEngineProcessor : MediaTypeProcessor
     {
         private static readonly IDictionary<string, ITemplate> _cache = new Dictionary<string, ITemplate>();
 
-        public HtmlProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode)
+        public ViewEngineProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode)
             : base(operation, mode)
         {
         }
