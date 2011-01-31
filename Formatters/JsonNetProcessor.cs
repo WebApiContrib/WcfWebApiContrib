@@ -36,10 +36,11 @@ namespace Http.Formatters
         public override void WriteToStream(object instance, Stream stream, HttpRequestMessage request)
         {
             var serializer = new JsonSerializer();
-            using (var sw = new StreamWriter(stream))
+            using (var sw = new StreamWriter(stream.PreventClose()))
             using (var writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, instance);
+                writer.Flush();
             }
         }
 
