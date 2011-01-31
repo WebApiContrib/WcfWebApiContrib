@@ -46,29 +46,17 @@
     <Reference Include="Nina.ViewEngines">
       <HintPath>..\libs\Templating\Nina.ViewEngines.dll</HintPath>
     </Reference>
-    <Reference Include="Nina.ViewEngines.Razor">
-      <HintPath>..\libs\Templating\Nina.ViewEngines.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="RazorEngine.Core">
-      <HintPath>..\libs\Templating\RazorEngine.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="RazorEngine.Templates">
-      <HintPath>..\libs\Templating\RazorEngine.Templates.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BsonProcessor.cs" />
     <Compile Include="JsonNetProcessor.cs" />
+    <Compile Include="NonClosingStreamDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HtmlProcessor.cs" />
+    <Compile Include="ViewEngineProcessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

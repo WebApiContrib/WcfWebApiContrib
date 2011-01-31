@@ -27,11 +27,11 @@ namespace Http.Formatters
     ///     Other supported view engines include NDango and NHaml. More are likely on the way.
     ///     <see href="https://github.com/panesofglass/nina/tree/templating">See my templating branch of the Nina project.</see>
     /// </remarks>
-    public class HtmlProcessor : MediaTypeProcessor
+    public class ViewEngineProcessor : MediaTypeProcessor
     {
         private static readonly IDictionary<string, ITemplate> _cache = new Dictionary<string, ITemplate>();
 
-        public HtmlProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode)
+        public ViewEngineProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode)
             : base(operation, mode)
         {
         }
@@ -54,14 +54,19 @@ namespace Http.Formatters
         {
             ITemplate template;
             string templateName = instance.GetType().Name;
+            Type modelType = instance.GetType();
             if (Nina.Configuration.Configure.IsDevelopment || !_cache.TryGetValue(templateName, out template))
             {
-                template = Nina.Configuration.Configure.Views.Engine.Compile<object>(templateName);
+                template = Nina.Configuration.Configure.Views.Engine.Compile(modelType, templateName);
                 _cache[templateName] = template;
             }
 
-            using (var sw = new System.IO.StreamWriter(stream))
+            using (var sw = new System.IO.StreamWriter(stream.PreventClose()))
+            {
+                // This fails to render properly b/c I don't have a generic type.
                 template.Render(sw, instance);
+                sw.Flush();
+            } 
         }
     }
 }

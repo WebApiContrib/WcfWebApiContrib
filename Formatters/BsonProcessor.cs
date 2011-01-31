@@ -37,9 +37,10 @@ namespace Http.Formatters
         public override void WriteToStream(object instance, Stream stream, HttpRequestMessage request)
         {
             var serializer = new JsonSerializer();
-            using (var writer = new BsonWriter(stream))
+            using (var writer = new BsonWriter(stream.PreventClose()))
             {
                 serializer.Serialize(writer, instance);
+                writer.Flush();
             }
         }
 
