@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="BsonProcessor.cs" />
     <Compile Include="JsonNetProcessor.cs" />
+    <Compile Include="GenericMediaTypeProcessor.cs" />
     <Compile Include="NonClosingStreamDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewEngineProcessor.cs" />

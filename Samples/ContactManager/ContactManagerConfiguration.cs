@@ -45,8 +45,8 @@ namespace ContactManager
             processors.Add(new JsonNetProcessor(operation, mode));
             processors.Add(new BsonProcessor(operation, mode));
             processors.Add(new PngProcessor(operation, mode));
-            // NOTE: This probably needs to be a per-route config option that takes a generic.
-            processors.Add(new ViewEngineProcessor(operation, mode));
+            // TODO: How would you set this up to work for any type?
+            processors.Add(new ViewEngineProcessor<Contact>(operation, mode));
         }
 
         // Get the instance from MEF
