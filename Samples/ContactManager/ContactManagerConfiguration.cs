@@ -46,7 +46,7 @@ namespace ContactManager
             processors.Add(new BsonProcessor(operation, mode));
             processors.Add(new PngProcessor(operation, mode));
             // TODO: How would you set this up to work for any type?
-            processors.Add(new ViewEngineProcessor<Contact>(operation, mode));
+            processors.Add(new ViewEngineProcessor<Contact>(operation, mode, "Templates/"));
         }
 
         // Get the instance from MEF

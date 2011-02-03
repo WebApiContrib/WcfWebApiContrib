@@ -30,10 +30,12 @@ namespace Http.Formatters
     public class ViewEngineProcessor<T> : GenericMediaTypeProcessor<T>
     {
         private static readonly IDictionary<string, ITemplate> _cache = new Dictionary<string, ITemplate>();
+        private readonly string _basePath;
 
-        public ViewEngineProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode)
+        public ViewEngineProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode, string basePath = "Views/")
             : base(operation, mode)
         {
+            _basePath = basePath;
         }
 
         public override IEnumerable<string> SupportedMediaTypes
@@ -53,7 +55,7 @@ namespace Http.Formatters
         public override void WriteToStream(T instance, System.IO.Stream stream, System.Net.Http.HttpRequestMessage request)
         {
             ITemplate template;
-            string templateName = typeof(T).Name;
+            string templateName = _basePath + typeof(T).Name;
             Type modelType = instance.GetType();
             if (Nina.Configuration.Configure.IsDevelopment || !_cache.TryGetValue(templateName, out template))
             {

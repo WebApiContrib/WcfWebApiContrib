@@ -145,7 +145,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Contact.haml" />
+    <None Include="Templates\Contact.haml" />
+    <None Include="Templates\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Formatters\Http.Formatters.csproj">
