@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections;
+using Microsoft.ApplicationServer.Http;
+using Microsoft.ApplicationServer.Http.Activation;
+using Microsoft.ApplicationServer.Http.Description;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
-using Microsoft.ServiceModel.Http;
 using SelfhostedServer.Host;
-using SelfhostedServer.ProcessorFactories;
 using SelfhostedServer.ServiceContracts;
 using SelfhostedServer.Services;
 using ServiceLocator = SelfhostedServer.Tools.ServiceLocator;
-using System.Net;
-using System.Net.Http;
 
 namespace SelfhostedServer {
     class Program {
         static void Main(string[] args) {
             var serviceLocator = new ServiceLocator(CreateDIContainer());
 
-            var baseurl = "http://localhost:1000/";
-            SelfHostedWebHttpHost host = CreateHost<FooService, DefaultProcessorFactory>(serviceLocator, baseurl);
+            var baseurl = new Uri("http://localhost:1000/");
+
+            var config = HttpHostConfiguration.Create()
+                .SetResourceFactory(new ResourceFactory(serviceLocator))
+                .SetOperationHandlerFactory(new OperationHandlerFactory());
+
+            HttpServiceHost host = new HttpConfigurableServiceHost<FooService>(config, baseurl); 
             host.Open();
 
             Console.WriteLine("Host open.  Hit enter to exit...");
-            Console.WriteLine("Use a web browser and go to " + baseurl + "root or do it right and get fiddler!");
+            Console.WriteLine("Use a web browser and go to " + baseurl + " or do it right and get fiddler!");
 
             Console.Read();
 
@@ -30,17 +34,10 @@ namespace SelfhostedServer {
 
         private static UnityContainer CreateDIContainer() {
             var unityContainer = new UnityContainer();
-            unityContainer.RegisterType<FooService, FooService>();
+//            unityContainer.RegisterType<FooService, FooService>();
             unityContainer.RegisterType<ILogger, Logger>();
             return unityContainer;
         }
 
-        private static SelfHostedWebHttpHost CreateHost<TServiceContract, TProcessorFactory>(IServiceLocator container, string baseUrl) where TProcessorFactory : HttpHostConfiguration ,new() {
-            var baseAddresses = new Uri[] { new Uri(baseUrl) };
-
-            var configuration = new TProcessorFactory();
-
-            return new SelfHostedWebHttpHost(container, typeof(TServiceContract), configuration, baseAddresses);
-        }
     }
 }
