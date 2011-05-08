@@ -21,7 +21,6 @@ namespace ContactManager
     using Microsoft.ServiceModel.Http;
 
     using Nina.Configuration;
-    using Http.Formatters;
 
     public class ContactManagerConfiguration : HttpHostConfiguration, IProcessorProvider, IInstanceFactory
     {

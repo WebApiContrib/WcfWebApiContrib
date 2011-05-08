@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Ryan Riley <ryan.riley@panesofglass.org>
 // Copyright (c) 2011, Ryan Riley.
@@ -10,11 +10,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.ServiceModel.Description;
-using Microsoft.ServiceModel.Http;
+using System.IO;
+using System.Net;
+using System.Net.Http.Headers;
+using Microsoft.ApplicationServer.Http;
+using Microsoft.ApplicationServer.Http.Description;
 using Nina.ViewEngines;
 
-namespace Http.Formatters
+namespace Formatters
 {
     /// <summary>
     /// Processes text/html and application/xhtml+xml media types.
@@ -27,46 +30,34 @@ namespace Http.Formatters
     ///     Other supported view engines include NDango and NHaml. More are likely on the way.
     ///     <see href="https://github.com/panesofglass/nina/tree/templating">See my templating branch of the Nina project.</see>
     /// </remarks>
-    public class ViewEngineProcessor<T> : GenericMediaTypeProcessor<T>
+    public class ViewEngineProcessor<T> : MediaTypeFormatter
     {
         private static readonly IDictionary<string, ITemplate> _cache = new Dictionary<string, ITemplate>();
         private readonly string _basePath;
 
-        public ViewEngineProcessor(HttpOperationDescription operation, MediaTypeProcessorMode mode, string basePath = "Views/")
-            : base(operation, mode)
+        public ViewEngineProcessor(string basePath = "Views/")
         {
             _basePath = basePath;
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
 
-        public override IEnumerable<string> SupportedMediaTypes
-        {
-            get
-            {
-                yield return "text/html";
-                //yield return "application/xhtml+xml";
-            }
-        }
-
-        public override object ReadFromStream(System.IO.Stream stream, System.Net.Http.HttpRequestMessage request)
-        {
+        
+        public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
             throw new NotImplementedException();
         }
 
-        public override void WriteToStream(T instance, System.IO.Stream stream, System.Net.Http.HttpRequestMessage request)
-        {
+        public override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
             ITemplate template;
             string templateName = _basePath + typeof(T).Name;
-            Type modelType = instance.GetType();
-            if (Nina.Configuration.Configure.IsDevelopment || !_cache.TryGetValue(templateName, out template))
-            {
+            Type modelType = value.GetType();
+            if (Nina.Configuration.Configure.IsDevelopment || !_cache.TryGetValue(templateName, out template)) {
                 template = Nina.Configuration.Configure.Views.Engine.Compile<T>(templateName);
                 _cache[templateName] = template;
             }
 
-            using (var sw = new System.IO.StreamWriter(stream.PreventClose()))
-            {
+            using (var sw = new System.IO.StreamWriter(stream.PreventClose())) {
                 // This fails to render properly b/c I don't have a generic type.
-                template.Render(sw, instance);
+                template.Render(sw, value);
                 sw.Flush();
             } 
         }

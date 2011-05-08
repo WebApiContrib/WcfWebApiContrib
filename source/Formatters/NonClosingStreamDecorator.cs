@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Http.Formatters
+namespace Formatters
 {
     /// <summary>
     /// Prevents consuming types (TextReader/TextWriter) from closing the Stream.

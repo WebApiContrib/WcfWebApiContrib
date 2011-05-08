@@ -89,10 +89,9 @@
   <ItemGroup>
     <Compile Include="Host\OperationHandlerFactory.cs" />
     <Compile Include="Host\ResourceFactory.cs" />
-    <Compile Include="OperationHandlers\LoggingProcessor.cs" />
+    <Compile Include="Resources\PersonInfo.cs" />
     <Compile Include="Services\W3cPatternLayout.cs" />
     <Compile Include="Tools\ServiceLocator.cs" />
-    <Compile Include="Services\ILogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceContracts\FooService.cs" />
@@ -102,6 +101,13 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\source\OperationHandlers\OperationHandlers.csproj">
+      <Project>{643DDF18-7E49-4238-BEF1-A42733383745}</Project>
+      <Name>OperationHandlers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

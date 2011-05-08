@@ -1,7 +1,9 @@
 Welcome to WCF Web API Contrib
 
 
-Contents as of 2011-05-04
+Contents as of 2011-05-07
+
+Reorganization to allow a WebAPIContrib Nuget to be built so people can actually use the bits as well as just look at samples.  Just as a warning, these bits are highly likely to change, so use them for experimental purposes only :-).
 
 build.bat            
 - Rebuilds all projects including the source for WCF Web API
@@ -15,13 +17,15 @@ Samples              - Various projects that demonstrate capabilities of WCF Web
  FSharpServer        - FSharp host using Preview 3
  Silverlight         - Silverlight example client and server  (Using Preview 3)
 
-Formatters           - Reusable classes that serialize and deserialize types into wire representations.
+Source               - Code that will go into the NuGet
+ Formatters          - Reusable classes that serialize and deserialize types into wire representations.
+ MessageHandlers     - Reusable message handlers
+ OperationHandlers   - Reusable operation handlers
 
-Security             - Examples of using Message Handlers to do authentication
+Security             - Pablo's Security project.  If he is ok with it, this will be replaced by the Security folder in the MessageHandler project
 
 libs                 - Home of third party libraries used by this probject.  Probably will be replaced by Nuget packages at some point.
 
 tools         
 
 
-If this is the first time you are downloading and running this project it is likely that you are going to have difficulty getting the Preview 3 projects to run.  Please be patient whilst the various contributors get the projects upgraded.  There were quite a lot of breaking changes in this project so it may take a while.

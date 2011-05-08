@@ -45,14 +45,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Http">
+      <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.Http.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Net.Http">
-      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.Http">
-      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
+      <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.ServiceModel.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceModel.WebHttp">
-      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+      <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />

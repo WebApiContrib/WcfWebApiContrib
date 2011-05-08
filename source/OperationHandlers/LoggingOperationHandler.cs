@@ -2,11 +2,16 @@
 using System.Net.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 
-namespace SelfhostedServer.OperationHandlers {
-    public class ResponseLoggingProcessor : HttpOperationHandler<HttpRequestMessage, HttpResponseMessage, HttpResponseMessage> {
+namespace OperationHandlers {
+
+    public interface ILogger {
+        void Log(string message);
+    }
+
+    public class LoggingOperationHandler : HttpOperationHandler<HttpRequestMessage, HttpResponseMessage, HttpResponseMessage> {
         private readonly ILogger _Logger;
 
-        public ResponseLoggingProcessor(ILogger logger) : base("httpResponseMessage") {
+        public LoggingOperationHandler(ILogger logger) : base("httpResponseMessage") {
             _Logger = logger;
         }
 

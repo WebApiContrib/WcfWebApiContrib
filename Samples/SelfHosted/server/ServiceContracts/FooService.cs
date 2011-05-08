@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using OperationHandlers;
+using SelfhostedServer.Resources;
 
 namespace SelfhostedServer.ServiceContracts {
 
@@ -39,10 +41,33 @@ namespace SelfhostedServer.ServiceContracts {
 
         
         [WebGet(UriTemplate = "Foo")]
-        [OperationContract]
         public string GetFoo() {
             
             return "If you use fiddler and put text/plain it will return as text/plain, otherwise it will come back as an xml serialized string";
+        }
+
+
+        /// <summary>
+        /// Return a strongly typed object.  We can use the default formatters in the response pipeline
+        /// to convert this to Xml and Json.
+        /// </summary>
+        /// <returns></returns>
+        [WebGet(UriTemplate = "PersonInfo")]
+        public PersonInfo GetPersonInfo() {
+
+            return new PersonInfo() {Name = "Bob Brown"};
+        }
+
+
+        /// <summary>
+        /// Accept a strongly typed object and echo it back
+        /// </summary>
+        /// <param name="personInfo"></param>
+        /// <returns></returns>
+        [WebInvoke(UriTemplate = "PersonInfo", Method = "POST")]
+        public PersonInfo PostPersonInfo(PersonInfo personInfo) {
+
+            return new PersonInfo();
         }
 
 
