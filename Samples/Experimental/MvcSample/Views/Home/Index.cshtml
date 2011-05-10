@@ -1,0 +1,33 @@
+﻿@model MvcSample.Models.Home.IndexModel
+
+<p>
+	@if(!String.IsNullOrEmpty(Model.ErrorMessage))
+	{
+		@:Error retrieving data: @Model.ErrorMessage
+	}
+	else
+	{
+		@:View rendered at: @Model.Now by @Model.ServiceName
+	}
+</p>
+<p />
+<div id="json"></div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$.ajax({
+			url: "http://localhost:9001/DateTime/Now",
+			headers: {'Authorization':'Basic ZHBlZGVuOnRlc3Q='}
+		})
+			.success(
+				function (json) {
+					var jsonDate = new Date(+json.replace(/\/Date\((\d+)\)\//, '$1'));
+					var formattedDate = jsonDate.format("m/d/yyyy h:MM:ss TT");
+					$("#json").html(formattedDate);
+				})
+			.error(
+				function (request, status, exception) {
+					$("#json").html(exception + '(' + request.status + '): ' + request.responseText);
+				});
+		});
+</script>
