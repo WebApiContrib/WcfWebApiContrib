@@ -2,6 +2,8 @@
 //   Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Http.Formatters;
+
 namespace ContactManager
 {
     using System;

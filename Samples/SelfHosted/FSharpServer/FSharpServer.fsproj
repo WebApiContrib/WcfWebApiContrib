@@ -48,6 +48,9 @@
     <Reference Include="Microsoft.Http">
       <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.Http.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Http.Extensions">
+      <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.Http.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Net.Http">
       <HintPath>..\..\..\libs\WCFHTTPPreview3\Microsoft.Net.Http.dll</HintPath>
     </Reference>

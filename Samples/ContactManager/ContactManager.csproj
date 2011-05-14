@@ -51,20 +51,20 @@
       <HintPath>..\..\libs\WCFHTTPPreview3\Http.Formatters.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Net.Http, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
+    <Reference Include="Microsoft.Http">
+      <HintPath>..\..\libs\WCFHTTPPreview3\Microsoft.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\libs\WCFHTTPPreview3\Microsoft.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Runtime.Serialization.Json">
       <HintPath>..\..\libs\WCFHTTPPreview3\Microsoft.Runtime.Serialization.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.Http, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
+    <Reference Include="Microsoft.ServiceModel.Http">
+      <HintPath>..\..\libs\WCFHTTPPreview3\Microsoft.ServiceModel.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.WebHttp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+    <Reference Include="Microsoft.ServiceModel.WebHttp">
+      <HintPath>..\..\libs\WCFHTTPPreview3\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="NHaml">
       <HintPath>..\..\libs\Templating\NHaml.dll</HintPath>
