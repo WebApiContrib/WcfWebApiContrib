@@ -5,6 +5,7 @@ using System.ServiceModel.Web;
 namespace DataContractExample
 {
     [ServiceContract]
+    //[DataContractFormat] - If you annotate the service you don't need to call the UseDataContractSerializer method
     public class ContactsResource
     {
         static List<Contact> contacts;

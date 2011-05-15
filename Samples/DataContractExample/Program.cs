@@ -14,8 +14,8 @@ namespace DataContractExample
     {
         static void Main(string[] args)
         {
-            var config = HttpHostConfiguration.Create();
-            config.UseDataContractSerializer<Contact>();
+            var config = HttpHostConfiguration.Create().
+                UseDataContractSerializer<Contact>();
             var host = new HttpConfigurableServiceHost<ContactsResource>(config, new Uri("http://localhost:8080/"));
             host.Open();
             
