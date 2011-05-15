@@ -19,9 +19,14 @@ namespace SelfhostedServer {
 
             var baseurl = new Uri("http://localhost:1000/");
 
+            var serverState = new ServerState();
+            serverState["Hello"] = "World";
+            var operationHandlerFactory = new OperationHandlerFactory(serverState);
+
             var config = HttpHostConfiguration.Create()
                 .SetResourceFactory(new ResourceFactory(serviceLocator))
-                .SetOperationHandlerFactory(new OperationHandlerFactory());
+                .SetOperationHandlerFactory(operationHandlerFactory);
+            ((HttpHostConfiguration)config).OperationHandlerFactory.Formatters.Insert(0, new JsonMediaTypeFormatter());
 
             HttpServiceHost host = new HttpConfigurableServiceHost<FooService>(config, baseurl);
             host.Open();
@@ -50,7 +55,7 @@ namespace SelfhostedServer {
 
             var config = HttpHostConfiguration.Create()
                 .SetResourceFactory(new ResourceFactory(serviceLocator))
-                .SetOperationHandlerFactory(new OperationHandlerFactory());
+                .SetOperationHandlerFactory(new OperationHandlerFactory(null));
 
             HttpServiceHost host = new HttpConfigurableServiceHost<FooService>(config, baseurl);
             host.Open();

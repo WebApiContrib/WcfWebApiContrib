@@ -1,8 +1,10 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using OperationHandlers;
+using SelfhostedServer.Host;
 using SelfhostedServer.Resources;
 
 namespace SelfhostedServer.ServiceContracts {
@@ -70,6 +72,31 @@ namespace SelfhostedServer.ServiceContracts {
             return new PersonInfo();
         }
 
+        /// <summary>
+        /// Return information based on some global stored state.
+        /// </summary>
+        /// <param name="serverState"></param>
+        /// <returns></returns>
+        [WebGet(UriTemplate = "ServerState")]
+        public HttpResponseMessage GetServerState(ServerState serverState) {
+
+            var httpResponseMessage = new HttpResponseMessage();
+            httpResponseMessage.StatusCode = HttpStatusCode.OK;
+            httpResponseMessage.Content = new StringContent((string)serverState["Hello"], System.Text.Encoding.UTF8, "text/plain");
+            return httpResponseMessage;
+        }
+
+        [WebGet(UriTemplate = "CustomHeader")]
+        public HttpResponseMessage CustomHeader(HttpRequestMessage requestMessage) {
+
+            var httpResponseMessage = new HttpResponseMessage();
+            var header = requestMessage.Headers.GetValues("x-foo");
+            httpResponseMessage.Content = new StringContent(header.First(), System.Text.Encoding.UTF8, "text/plain");
+            return httpResponseMessage;
+            
+        }
+
+        
 
     }
 }
