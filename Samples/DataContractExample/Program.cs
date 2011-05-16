@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using Formatters;
+
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
+using WebApiContrib.Formatters.Core;
 
 namespace DataContractExample
 {
@@ -14,8 +15,9 @@ namespace DataContractExample
     {
         static void Main(string[] args)
         {
-            var config = HttpHostConfiguration.Create().
-                UseDataContractSerializer<Contact>();
+            var config = HttpHostConfiguration.Create();
+            config.UseDataContractSerializer<Contact>();
+
             var host = new HttpConfigurableServiceHost<ContactsResource>(config, new Uri("http://localhost:8080/"));
             host.Open();
             

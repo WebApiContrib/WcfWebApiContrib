@@ -15,3 +15,4 @@ glob:*.suo
 glob:Output
 glob:*.vsmdi
 glob:*.pdb
+glob:*.sdf

@@ -68,9 +68,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\source\Formatters\Formatters.csproj">
-      <Project>{4B518094-4BE4-47EE-B2E0-E9534CFB2944}</Project>
-      <Name>Formatters</Name>
+    <ProjectReference Include="..\..\source\Formatters\Core\WebApiContrib.Formatters.Core.csproj">
+      <Project>{60D7AD61-35F2-4F1D-BEB0-7E4902BCB6BC}</Project>
+      <Name>WebApiContrib.Formatters.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
