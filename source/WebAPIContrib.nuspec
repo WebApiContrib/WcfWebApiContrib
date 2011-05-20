@@ -2,17 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>WebAPIContrib</id>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <authors>Darrel Miller</authors>
     <owners>http://webapicontrib.codeplex.com/team/view</owners>
     <projectUrl>http://webapicontrib.codeplex.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>WebAPIContrib Operation Handlers and Message Handlers</description>
+    <description>Community extensions to WCF Web API project</description>
     <dependencies>
       <dependency id="WebApi.All" version="0.3.0" />
     </dependencies>
   </metadata>
  <files>
+    <file src="..\bin\release\WebAPIContrib.Formatters.Core.dll" target="lib" />
     <file src="..\bin\release\WebApiContrib.OperationHandlers.dll" target="lib" />
     <file src="..\bin\release\WebApiContrib.MessageHandlers.dll" target="lib" />
   </files>

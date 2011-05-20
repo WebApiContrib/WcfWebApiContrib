@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 
-namespace OperationHandlers {
+namespace WebApiContrib.OperationHandlers {
     public class CompressionHandler : HttpOperationHandler<HttpResponseMessage, HttpResponseMessage> {
         public CompressionHandler() : base("response") {
         }
@@ -28,6 +28,7 @@ namespace OperationHandlers {
         public CompressedContent(HttpContent content) {
             _Content = content;
             Headers.ContentEncoding.Add("gzip");
+            Headers.ContentType = _Content.Headers.ContentType;
         }
 
         protected override void SerializeToStream(Stream stream, TransportContext context) {
