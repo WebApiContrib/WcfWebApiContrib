@@ -63,7 +63,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncCtpLibrary_Silverlight">
-		<HintPath>..\..\..\codeplex\AsyncCtpLibrary_Silverlight.dll</HintPath>
+      <HintPath>..\..\..\bin\Debug\AsyncCtpLibrary_Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.Runtime.Serialization" />

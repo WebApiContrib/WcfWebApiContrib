@@ -57,12 +57,12 @@
 
 		public static bool IsJsonContent(this HttpResponseMessage message)
 		{
-			return message.ContentType == MediaType.Json;
+			return message.ContentType.StartsWith( MediaType.Json );
 		}
 
 		public static bool IsXmlContent(this HttpResponseMessage message)
 		{
-			return message.ContentType == MediaType.Xml;
+			return message.ContentType.StartsWith( MediaType.Xml );
 		}
 	}
 }

@@ -14,6 +14,7 @@
     <AssemblyName>QueryableSilverlight.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightApplicationList>{DB79CD14-CA5F-4CA5-ACEC-CFB908AF6C8A}|..\QueryableSilverlight\QueryableSilverlight.csproj|ClientBin|False</SilverlightApplicationList>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,19 +34,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ApplicationServer.Http">
+      <HintPath>..\..\..\bin\Debug\Microsoft.ApplicationServer.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
+      <HintPath>..\..\..\bin\Debug\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
+      <HintPath>..\..\..\bin\Debug\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Net.Http, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ServiceModel.Http, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ServiceModel.WebHttp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\codeplex\build\Release\Http\bin\Microsoft.ServiceModel.WebHttp.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -79,7 +77,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PeopleConfiguration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
