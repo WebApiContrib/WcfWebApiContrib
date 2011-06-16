@@ -4,7 +4,6 @@
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
-	using System.Net.Http;
 	using System.ServiceModel;
 	using System.ServiceModel.Activation;
 	using System.ServiceModel.Web;
@@ -24,8 +23,7 @@
         };
 
 		[WebGet(UriTemplate = "")]
-		[QueryComposition]
-		public IEnumerable<Person> Get()
+		public IQueryable<Person> Get()
 		{
 			return _people.AsQueryable();
 		}
@@ -44,10 +42,9 @@
 		}
 
 		[WebInvoke(UriTemplate = "{id}", Method = "PUT")]
-		public Person Put(string id, Person person, HttpResponseMessage response)
+		public Person Put(int id, Person person)
 		{
-			var intId = int.Parse(id, CultureInfo.InvariantCulture);
-			Person localPerson = _people.First(p => p.ID == intId);
+			Person localPerson = _people.First(p => p.ID == id);
 
 			localPerson.Name = person.Name;
 
