@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using OperationHandlers;
 using SelfhostedServer.Host;
@@ -90,6 +91,8 @@ namespace SelfhostedServer.ServiceContracts {
         public HttpResponseMessage CustomHeader(HttpRequestMessage requestMessage) {
 
             var httpResponseMessage = new HttpResponseMessage();
+            
+
             var header = requestMessage.Headers.GetValues("x-foo");
             httpResponseMessage.Content = new StringContent(header.First(), System.Text.Encoding.UTF8, "text/plain");
             return httpResponseMessage;

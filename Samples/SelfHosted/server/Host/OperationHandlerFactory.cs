@@ -8,6 +8,7 @@ using Microsoft.ApplicationServer.Http.Description;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using OperationHandlers;
 using SelfhostedServer.Services;
+using WebApiContrib.OperationHandlers;
 
 namespace SelfhostedServer.Host {
     public class OperationHandlerFactory : HttpOperationHandlerFactory {
@@ -26,6 +27,7 @@ namespace SelfhostedServer.Host {
         protected override System.Collections.ObjectModel.Collection<Microsoft.ApplicationServer.Http.Dispatcher.HttpOperationHandler> OnCreateResponseHandlers(System.ServiceModel.Description.ServiceEndpoint endpoint, HttpOperationDescription operation) {
             var collection = base.OnCreateResponseHandlers(endpoint, operation);
             collection.Add(new LoggingOperationHandler(new Logger()));
+            collection.Add(new CompressionHandler());
             
             return collection;
         }
