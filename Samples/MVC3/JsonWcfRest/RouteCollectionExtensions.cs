@@ -14,7 +14,7 @@ namespace JsonWcfRest
 			routeCollection.MapServiceRoute<T>(converter.GetRoutePrefix(typeof(T)));
 		}
 
-		public static void MapServiceRoute<T>(this RouteCollection routeCollection, IServiceContractToRoutePrefixConverter converter, IHttpHostConfiguration configuration)
+		public static void MapServiceRoute<T>(this RouteCollection routeCollection, IServiceContractToRoutePrefixConverter converter, IHttpHostConfigurationBuilder configuration)
 		{
 			routeCollection.MapServiceRoute<T>(converter.GetRoutePrefix(typeof(T)), configuration);
 		}
@@ -24,7 +24,7 @@ namespace JsonWcfRest
 			routeCollection.MapServiceRoute<T>(DefaultServiceContractToRoutePrefixConverter.Instance.GetRoutePrefix(typeof(T)));
 		}
 
-		public static void MapServiceRoute<T>(this RouteCollection routeCollection, IHttpHostConfiguration configuration)
+		public static void MapServiceRoute<T>(this RouteCollection routeCollection, IHttpHostConfigurationBuilder configuration)
 		{
 			routeCollection.MapServiceRoute<T>(DefaultServiceContractToRoutePrefixConverter.Instance.GetRoutePrefix(typeof(T)), configuration);
 		}

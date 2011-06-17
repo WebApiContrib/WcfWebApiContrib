@@ -30,7 +30,7 @@ namespace MvcSample
 				new { controller = ServiceContracts.In(Assembly.GetExecutingAssembly()).WithDefaultConverter() }
 				);
 
-			IHttpHostConfigurationBuilderAdvanced configurationBuilder = HttpHostConfiguration.BuildAdvanced()
+			var configurationBuilder = HttpHostConfiguration.Create()
 				.SetMessageHandlerFactory(new CustomHttpMessageChannelFactory())
 				.SetOperationHandlerFactory(new CustomHttpOperationHandlerFactory());
 
