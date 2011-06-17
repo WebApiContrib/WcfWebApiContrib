@@ -15,7 +15,7 @@
     </dependencies>
   </metadata>
  <files>
-    <file src="..\bin\release\WebAPIContrib.Formatters.Json.dll" target="lib" />
+    <file src="..\bin\release\WebAPIContrib.Formatters.JsonNet.dll" target="lib" />
   </files>
 
 </package>

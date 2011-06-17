@@ -68,6 +68,8 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -75,6 +77,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectContentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OperationContextTests.cs" />
     <Compile Include="TestService.cs" />
@@ -82,6 +85,16 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Formatters\Core\WebApiContrib.Formatters.Core.csproj">
+      <Project>{60D7AD61-35F2-4F1D-BEB0-7E4902BCB6BC}</Project>
+      <Name>WebApiContrib.Formatters.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApiContrib.OperationHandlers\WebApiContrib.OperationHandlers.csproj">
+      <Project>{12108575-63A9-4C1B-90E6-8E0BA00D2B3C}</Project>
+      <Name>WebApiContrib.OperationHandlers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

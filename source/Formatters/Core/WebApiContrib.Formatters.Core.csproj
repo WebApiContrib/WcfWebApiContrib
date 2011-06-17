@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,6 +76,8 @@
     </Compile>
     <Compile Include="DataContractExtensions.cs" />
     <Compile Include="NonClosingStreamDecorator.cs" />
+    <Compile Include="PlainTextFormatter.cs" />
+    <Compile Include="XmlUsingXDocumentFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
