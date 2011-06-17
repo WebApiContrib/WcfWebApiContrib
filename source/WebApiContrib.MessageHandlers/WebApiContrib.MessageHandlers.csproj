@@ -73,10 +73,12 @@
     <Compile Include="..\WebApiContrib\Properties\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="HeadMessageHandler.cs" />
     <Compile Include="Security\BasicAuthenticationHandler.cs" />
     <Compile Include="Security\CustomHttpMessageHandlerFactory.cs" />
     <Compile Include="Security\IAuthenticationHandler.cs" />
     <Compile Include="Security\IUserValidation.cs" />
+    <Compile Include="TraceMessageHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
