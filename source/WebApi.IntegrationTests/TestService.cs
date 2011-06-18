@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -25,5 +26,18 @@ namespace WebApi.IntegrationTests {
             response.Content = new StringContent(prop.Address);
             return response;
         }
+
+        [WebInvoke(Method = "POST",UriTemplate = "ResourceA")]
+        public HttpResponseMessage PostResourceA(HttpRequestMessage httpRequestMessage) {
+
+
+            var stream = httpRequestMessage.Content.ContentReadStream;
+            var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            var response = new HttpResponseMessage(HttpStatusCode.OK, "OK");
+            response.Content = new StringContent(memoryStream.Length.ToString());
+            return response;
+        }
+ 
     }
 }
