@@ -38,6 +38,16 @@ namespace WebApi.IntegrationTests {
             response.Content = new StringContent(memoryStream.Length.ToString());
             return response;
         }
- 
+
+
+        [WebGet(UriTemplate = "ResourceWithReasonPhrase")]
+        public HttpResponseMessage GetResourceWithReasonPhrase(HttpRequestMessage httpRequestMessage) {
+
+            
+            var response = new HttpResponseMessage(HttpStatusCode.OK,"OK");
+            response.Content = new StringContent("Hi!");
+            response.ReasonPhrase = "All Good";
+            return response;
+        }
     }
 }

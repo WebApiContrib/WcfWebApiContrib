@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileContentTests.cs" />
+    <Compile Include="HeaderTests.cs" />
     <Compile Include="ObjectContentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OperationContextTests.cs" />
