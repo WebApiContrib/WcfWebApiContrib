@@ -75,6 +75,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="HeadMessageHandler.cs" />
+    <Compile Include="HttpMethodTunnelChannel.cs" />
     <Compile Include="Security\BasicAuthenticationHandler.cs" />
     <Compile Include="Security\CustomHttpMessageHandlerFactory.cs" />
     <Compile Include="Security\IAuthenticationHandler.cs" />
