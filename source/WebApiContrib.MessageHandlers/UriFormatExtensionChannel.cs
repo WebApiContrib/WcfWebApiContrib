@@ -16,10 +16,10 @@ namespace WebApiContrib.MessageHandlers
             UriFormatExtensionMessageChannel.SetUriExtensionMappings(mappings);
         }
     }
-    
-    public class UriFormatExtensionMessageChannel : DelegatingChannel
+
+    public class UriFormatExtensionMessageChannel : DelegatingHandler
     {
-        public UriFormatExtensionMessageChannel(HttpMessageChannel handler)
+        public UriFormatExtensionMessageChannel(DelegatingHandler handler)
             :base(handler)
         {
         }

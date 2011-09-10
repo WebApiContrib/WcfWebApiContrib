@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace WebApiContrib.Formatters.Tests {
         public void RoundTripUsingJsonNet() {
 
             //Arrange
-            var formatters = new[] {new JsonNetFormatter()};
+            var formatters = new MediaTypeFormatterCollection() {new JsonNetFormatter()};
             var fromContact = new Contact { FirstName = "Brad", LastName = "Abrams" };
             
             // Act
-            var fromContent = new ObjectContent<Contact>(fromContact, "application/json", formatters);
+            var fromContent = new ObjectContent<Contact>(fromContact, new MediaTypeHeaderValue("application/json"), formatters);
             var contentReadStream = fromContent.ContentReadStream;
             contentReadStream.Position = 0;
             var toContent = new ObjectContent<Contact>(new StreamContent(contentReadStream), formatters);

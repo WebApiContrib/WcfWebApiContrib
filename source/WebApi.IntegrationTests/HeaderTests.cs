@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,12 +14,13 @@ namespace WebApi.IntegrationTests {
         [TestMethod]
         public void ReasonPhraseShouldBeReturnedToTheClient() {
             var serviceUri = new Uri("http://localtmserver:1017/");
-            var config = HttpHostConfiguration.Create();
+            var config = new HttpConfiguration();
 
-            var host = new HttpConfigurableServiceHost<TestService>(config, new[] { serviceUri });
+            var host = new HttpServiceHost(typeof(TestService),config, new[] { serviceUri });
             host.Open();
 
-            var httpClient = new HttpClient(serviceUri);
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = serviceUri;
 
             var response = httpClient.Get("ResourceWithReasonPhrase");
 

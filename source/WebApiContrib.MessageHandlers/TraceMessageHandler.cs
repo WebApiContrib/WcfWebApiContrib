@@ -8,8 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebApiContrib.MessageHandlers {
-    public class TraceMessageHandler : DelegatingChannel {
-        public TraceMessageHandler(HttpMessageChannel innerChannel) : base(innerChannel) {
+    public class TraceMessageHandler : DelegatingHandler {
+        public TraceMessageHandler(DelegatingHandler innerChannel)
+            : base(innerChannel) {
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
@@ -17,7 +18,7 @@ namespace WebApiContrib.MessageHandlers {
                    if (request.Method == HttpMethod.Trace) {
                        return Task<HttpResponseMessage>.Factory.StartNew(
                            () => {
-                               var response = new HttpResponseMessage(HttpStatusCode.OK, "OK");
+                               var response = new HttpResponseMessage(HttpStatusCode.OK);
                                response.Content = new StringContent(request.ToString(), Encoding.UTF8, "message/http");
                                return response;
                            });

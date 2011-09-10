@@ -13,7 +13,7 @@ namespace WebApiContrib.OperationHandlers {
         }
 
 
-        public override HttpResponseMessage OnHandle(HttpResponseMessage input) {
+        protected override HttpResponseMessage OnHandle(HttpResponseMessage input) {
 
             if (input.RequestMessage.Headers.AcceptEncoding.Contains(new StringWithQualityHeaderValue("gzip"))) {
                 input.Content = new CompressedContent(input.Content);

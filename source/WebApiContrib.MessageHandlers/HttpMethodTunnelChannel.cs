@@ -7,9 +7,9 @@ using System.Web;
 
 namespace WebApiContrib.MessageHandlers
 {
-    public class HttpMethodTunnelChannel : DelegatingChannel
+    public class HttpMethodTunnelChannel : DelegatingHandler
     {
-        public HttpMethodTunnelChannel(HttpMessageChannel innerChannel)
+        public HttpMethodTunnelChannel(HttpMessageHandler innerChannel)
             : base(innerChannel)
         {
         }

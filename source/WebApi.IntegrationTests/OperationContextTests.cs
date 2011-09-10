@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,12 +41,13 @@ namespace WebApi.IntegrationTests {
         public void ShouldReturnRemoteAddress() {
 
             var serviceUri = new Uri("http://localhost:1017/");
-            var config = HttpHostConfiguration.Create();
+            var config = new HttpConfiguration();
 
-            var host = new HttpConfigurableServiceHost<TestService>(config, new[] { serviceUri });
+            var host = new HttpServiceHost(typeof(TestService),config, new[] { serviceUri });
             host.Open();
 
-            var httpClient = new HttpClient(serviceUri);
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = serviceUri;
 
             var response = httpClient.Get("ResourceA");
 

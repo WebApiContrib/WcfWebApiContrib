@@ -3,8 +3,8 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using Microsoft.ApplicationServer.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
@@ -35,7 +35,7 @@ namespace WebApiContrib.Formatters.JsonNet
             //this.usesQueryComposition = operation.Behaviors.Contains(typeof(QueryCompositionAttribute));
         }
 
-        public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
+        protected override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
            var serializer = new JsonSerializer();
   			var reader = default(JsonReader);
   
@@ -49,7 +49,7 @@ namespace WebApiContrib.Formatters.JsonNet
   			return result;
         }
 
-        public override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
+        protected override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
 
             var serializer = new JsonSerializer { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 			// NOTE: we don't dispose or close these as they would 

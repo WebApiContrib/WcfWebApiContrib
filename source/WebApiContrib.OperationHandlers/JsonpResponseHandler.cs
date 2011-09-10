@@ -9,7 +9,7 @@ public class JsonpResponseHandler : HttpOperationHandler<HttpResponseMessage, Ht
 		: base("response") {
 	}
 
-	public override HttpResponseMessage OnHandle(HttpResponseMessage response) {
+    protected override HttpResponseMessage OnHandle(HttpResponseMessage response) {
 		var accept = response.RequestMessage.Headers.Accept;
 		if (accept.Contains(new MediaTypeWithQualityHeaderValue("application/json"))) {
 			var sb = new System.Text.StringBuilder();

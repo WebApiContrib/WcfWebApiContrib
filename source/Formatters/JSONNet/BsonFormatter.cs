@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using Microsoft.ApplicationServer.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using WebApiContrib.Formatters.Core;
@@ -24,10 +24,8 @@ namespace WebApiContrib.Formatters.JsonNet
               SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/bson"));
         }
 
-   
 
-
-        public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
+        protected override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
             var serializer = new JsonSerializer();
             using (var reader = new BsonReader(stream)) {
                 var result = serializer.Deserialize(reader, type);
@@ -35,7 +33,7 @@ namespace WebApiContrib.Formatters.JsonNet
             }
         }
 
-        public override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
+        protected override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
             var serializer = new JsonSerializer();
             using (var writer = new BsonWriter(stream.PreventClose())) {
                 serializer.Serialize(writer, value);

@@ -11,9 +11,14 @@ using System.Threading.Tasks;
 
 namespace WebApiContrib.MessageHandlers {
 
-    public class HeadMessageHandler : DelegatingChannel {
-        public HeadMessageHandler(HttpMessageChannel innerChannel)
+    public class HeadMessageHandler : DelegatingHandler {
+        public HeadMessageHandler(HttpMessageHandler innerChannel)
             : base(innerChannel) {
+            
+        }
+
+        protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken) {
+            throw new NotImplementedException();
         }
 
         protected override Task<HttpResponseMessage> SendAsync(

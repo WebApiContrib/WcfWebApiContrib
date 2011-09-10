@@ -12,8 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using Microsoft.ApplicationServer.Http;
 using Nina.ViewEngines;
 using WebApiContrib.Formatters.Core;
 
@@ -41,12 +41,12 @@ namespace WebApiContrib.Formatters.NinaViewEngine
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
 
-        
-        public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
+
+        protected override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders) {
             throw new NotImplementedException();
         }
 
-        public override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
+        protected override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context) {
             ITemplate template;
             string templateName = _basePath + typeof(T).Name;
             Type modelType = value.GetType();

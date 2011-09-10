@@ -16,7 +16,7 @@ namespace OperationHandlers {
         }
 
 
-        public override HttpResponseMessage OnHandle(HttpRequestMessage request, HttpResponseMessage response) {
+        protected override HttpResponseMessage OnHandle(HttpRequestMessage request, HttpResponseMessage response) {
             var w3clogEntry = string.Format(
               "{0:HH:mm:ss.fff} {1} {2} {3} {4}",
               DateTime.Now, request.Headers.From, request.Method, request.RequestUri, response.StatusCode);

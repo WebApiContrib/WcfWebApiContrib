@@ -9,17 +9,17 @@ using System.Threading;
 
 namespace WebApiContrib.MessageHandlers.Security
 {
-	public class BasicAuthenticationHandler : DelegatingChannel, IAuthenticationHandler
+	public class BasicAuthenticationHandler : DelegatingHandler, IAuthenticationHandler
 	{
 		IUserValidation userValidation;
 		string realm;
 
-		public BasicAuthenticationHandler(HttpMessageChannel innerChannel)
+        public BasicAuthenticationHandler(DelegatingHandler innerChannel)
 			: base(innerChannel)
 		{
 		}
 
-		public BasicAuthenticationHandler(HttpMessageChannel innerChannel, IUserValidation userValidation, string realm)
+        public BasicAuthenticationHandler(DelegatingHandler innerChannel, IUserValidation userValidation, string realm)
 			: base(innerChannel)
 		{
 			if (userValidation == null)
@@ -65,7 +65,7 @@ namespace WebApiContrib.MessageHandlers.Security
 			return Task<HttpResponseMessage>.Factory.StartNew(
 				() =>
 				{
-					var response = new HttpResponseMessage(HttpStatusCode.Unauthorized, "unauthorized");
+					var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
 					response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic", "realm=" + "foo"));
 
 					return response;

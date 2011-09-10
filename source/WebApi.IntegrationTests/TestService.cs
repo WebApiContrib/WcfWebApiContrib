@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
@@ -22,19 +23,19 @@ namespace WebApi.IntegrationTests {
 
             var prop = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
          
-            var response = new HttpResponseMessage(HttpStatusCode.OK,"OK");
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(prop.Address);
             return response;
         }
 
         [WebInvoke(Method = "POST",UriTemplate = "ResourceA")]
         public HttpResponseMessage PostResourceA(HttpRequestMessage httpRequestMessage) {
-
+            
 
             var stream = httpRequestMessage.Content.ContentReadStream;
             var memoryStream = new MemoryStream();
             stream.CopyTo(memoryStream);
-            var response = new HttpResponseMessage(HttpStatusCode.OK, "OK");
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(memoryStream.Length.ToString());
             return response;
         }
@@ -44,7 +45,7 @@ namespace WebApi.IntegrationTests {
         public HttpResponseMessage GetResourceWithReasonPhrase(HttpRequestMessage httpRequestMessage) {
 
             
-            var response = new HttpResponseMessage(HttpStatusCode.OK,"OK");
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent("Hi!");
             response.ReasonPhrase = "All Good";
             return response;

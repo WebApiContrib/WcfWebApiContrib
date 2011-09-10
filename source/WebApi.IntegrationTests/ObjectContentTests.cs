@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -63,12 +64,13 @@ namespace WebApi.IntegrationTests {
                 //Arrange
 
                 var serviceUri = new Uri("http://localhost:1001/");
-                var config = HttpHostConfiguration.Create();
+                var config = new HttpConfiguration();
 
-                var host = new HttpConfigurableServiceHost<FooService>(config, new[] { serviceUri });
+                var host = new HttpServiceHost(typeof(FooService), config, new[] { serviceUri });
                 host.Open();
 
-                var client = new HttpClient(serviceUri);
+                var client = new HttpClient();
+                client.BaseAddress = serviceUri;
 
                 //Act
                 var response = client.Get("foo2");
@@ -96,16 +98,17 @@ namespace WebApi.IntegrationTests {
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var serviceUri = new Uri("http://localhost:1001/");
-                var config = HttpHostConfiguration.Create()
-                    .AddFormatters(new PlainTextFormatter());
+                var config = new HttpConfiguration();
+                    config.Formatters.Add(new PlainTextFormatter());
 
-                var host = new HttpConfigurableServiceHost<FooService>(config, new[] { serviceUri });
+                var host = new HttpServiceHost(typeof(FooService), config, new[] { serviceUri });
                 host.Open();
 
-                var client = new HttpClient(serviceUri);
+                var client = new HttpClient();
+                client.BaseAddress = serviceUri;
 
                 //Act
-                request.RequestUri = new Uri(serviceUri, "foo2");
+                request.RequestUri = new Uri(serviceUri, "foo");
                 var response = client.Send(request);
 
                 var mediaType = response.Content.Headers.ContentType.MediaType;
@@ -125,13 +128,16 @@ namespace WebApi.IntegrationTests {
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var serviceUri = new Uri("http://localhost:1001/");
-                var config = HttpHostConfiguration.Create()
-                    .AddResponseHandlers(handlers => handlers.Add(new CompressionHandler()), (s, o) => true);
+                var config = new HttpConfiguration();
+                
+                config.ResponseHandlers = (handlers, se, od) => handlers.Add(new CompressionHandler());
 
-                var host = new HttpConfigurableServiceHost<FooService>(config, new[] { serviceUri });
+
+                var host = new HttpServiceHost(typeof(FooService), config, new[] { serviceUri });
                 host.Open();
 
-                var client = new HttpClient(serviceUri);
+                var client = new HttpClient();
+                client.BaseAddress = serviceUri;
                 client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
                 //Act
                 request.RequestUri = new Uri(serviceUri, "foo3");
@@ -174,7 +180,7 @@ namespace WebApi.IntegrationTests {
                 var formatters = content.Formatters;
 
                 //Assert
-                Assert.AreEqual(4, formatters.Count);
+                Assert.AreEqual(3, formatters.Count);
 
             }
 
@@ -212,7 +218,7 @@ namespace WebApi.IntegrationTests {
             public void SpecifyMediaTypeAndSerializeAsPlainTextWithACustomFormatter() {
                 //Arrange
 
-                var content = new ObjectContent<string>("woof", "text/plain", new[] { new PlainTextFormatter() });
+                var content = new ObjectContent<string>("woof", new MediaTypeHeaderValue("text/plain"), new List<MediaTypeFormatter> { new PlainTextFormatter() });
                 var request = new HttpRequestMessage();
 
                 //Act
