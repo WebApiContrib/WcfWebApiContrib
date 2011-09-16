@@ -15,13 +15,14 @@ namespace DataContractExample
     {
         static void Main(string[] args)
         {
-            var config = HttpHostConfiguration.Create();
-            config.UseDataContractSerializer<Contact>();
+            var config = new HttpConfiguration();
+            config.Formatters.UseDataContractSerializer<Contact>();
 
-            var host = new HttpConfigurableServiceHost<ContactsResource>(config, new Uri("http://localhost:8080/"));
+            var host = new HttpServiceHost(typeof(ContactsResource), config, new Uri("http://localhost:8080/"));
             host.Open();
             
-            var client = new HttpClient("http://localhost:8080/");
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:8080/");
             var newContact = new Contact {FirstName = "Brad", LastName = "Abrams"};
             var content = new ObjectContent<Contact>(newContact,"application/xml").UseDataContractSerializer();
             var response = client.Post("contacts", content);

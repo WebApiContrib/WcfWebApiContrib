@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Http.Formatting;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
@@ -9,6 +10,7 @@ using OperationHandlers;
 using SelfhostedServer.Host;
 using SelfhostedServer.ServiceContracts;
 using SelfhostedServer.Services;
+using WebApiContrib.OperationHandlers;
 using ServiceLocator = SelfhostedServer.Tools.ServiceLocator;
 
 namespace SelfhostedServer {
@@ -21,14 +23,18 @@ namespace SelfhostedServer {
 
             var serverState = new ServerState();
             serverState["Hello"] = "World";
-            var operationHandlerFactory = new OperationHandlerFactory(serverState);
 
-            var config = HttpHostConfiguration.Create()
-                .SetResourceFactory(new ResourceFactory(serviceLocator))
-                .SetOperationHandlerFactory(operationHandlerFactory);
-            ((HttpHostConfiguration)config).OperationHandlerFactory.Formatters.Insert(0, new JsonMediaTypeFormatter());
+            var config = new HttpConfiguration();
+            config.CreateInstance = (type, context, request) => serviceLocator.GetInstance(type);
+            config.RequestHandlers = (handlers, se, od) => handlers.Add(new ServerStateOperationHandler(serverState));
+            config.ResponseHandlers = (handlers, se, od) => {
+                handlers.Add(new LoggingOperationHandler(new Logger()));
+                handlers.Add(new CompressionHandler());
+            };
+            
+            config.Formatters.Insert(0, new JsonMediaTypeFormatter());
 
-            HttpServiceHost host = new HttpConfigurableServiceHost<FooService>(config, baseurl);
+            HttpServiceHost host = new HttpServiceHost(typeof(FooService), config, baseurl);
             host.Open();
 
             Console.WriteLine("Host open.  Hit enter to exit...");
@@ -53,11 +59,14 @@ namespace SelfhostedServer {
             
             var baseurl = new Uri("http://localhost:1000/service" + i);
 
-            var config = HttpHostConfiguration.Create()
-                .SetResourceFactory(new ResourceFactory(serviceLocator))
-                .SetOperationHandlerFactory(new OperationHandlerFactory(null));
-
-            HttpServiceHost host = new HttpConfigurableServiceHost<FooService>(config, baseurl);
+            var config = new HttpConfiguration();
+            config.CreateInstance = (type, context, request) => serviceLocator.GetInstance(type);
+            config.RequestHandlers = (handlers, se, od  ) => handlers.Add(new ServerStateOperationHandler(null));
+            config.ResponseHandlers = (handlers, se, od) => {
+                handlers.Add(new LoggingOperationHandler(new Logger()));
+                handlers.Add(new CompressionHandler());
+            };
+            var host = new HttpServiceHost(typeof(FooService), config, baseurl);
             host.Open();
             Console.WriteLine("Opening host open " + baseurl);
             }

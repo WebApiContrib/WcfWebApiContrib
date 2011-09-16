@@ -3,6 +3,9 @@
 // </copyright>
 
 using Http.Formatters;
+using Microsoft.ApplicationServer.Http;
+using Microsoft.ApplicationServer.Http.Description;
+using Microsoft.ApplicationServer.Http.Dispatcher;
 
 namespace ContactManager
 {
@@ -12,19 +15,14 @@ namespace ContactManager
     using System.ComponentModel.Composition.Hosting;
     using System.ComponentModel.Composition.Primitives;
     using System.Linq;
-    using System.Net.Http;
+    
     using System.ServiceModel;
     using System.ServiceModel.Channels;
-    using System.ServiceModel.Description;
-    using System.ServiceModel.Dispatcher;
-
-    using Microsoft.ServiceModel.Description;
-    using Microsoft.ServiceModel.Dispatcher;
-    using Microsoft.ServiceModel.Http;
+    
 
     using Nina.Configuration;
 
-    public class ContactManagerConfiguration : HttpHostConfiguration, IProcessorProvider, IInstanceFactory
+    public class ContactManagerConfiguration : HttpConfiguration
     {
         private readonly CompositionContainer container;
 
@@ -32,9 +30,11 @@ namespace ContactManager
         {
             this.container = container;
             Configure.Views.WithNHaml(); // Would be nice to make this non-static and inject it.
-        }
 
-        public void RegisterRequestProcessorsForOperation(HttpOperationDescription operation, IList<Processor> processors, MediaTypeProcessorMode mode)
+            this.ResponseHandlers = RegisterResponseProcessorsForOperation;
+        }
+        
+        public void RegisterRequestProcessorsForOperation(ICollection<HttpOperationHandler> handlers, HttpOperationDescription operation )
         {
             processors.Add(new JsonNetProcessor(operation, mode));
             processors.Add(new BsonProcessor(operation, mode));
