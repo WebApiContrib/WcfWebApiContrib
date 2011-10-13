@@ -101,7 +101,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HypermediaAPI\HypermediaAPI.csproj">
+    <ProjectReference Include="..\HypermediaAPI\HypermediaAPI.csproj">
       <Project>{B75C4E2D-419E-446F-8E4C-CDFAE6DEDD53}</Project>
       <Name>HypermediaAPI</Name>
     </ProjectReference>

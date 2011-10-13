@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypermediaServerConsole", "HypermediaServer\HypermediaServer\HypermediaServerConsole.csproj", "{716880CB-0013-4B76-B7FA-99138AFC9B25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypermediaAPI", "HypermediaAPI\HypermediaAPI.csproj", "{B75C4E2D-419E-446F-8E4C-CDFAE6DEDD53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypermediaAPI", "HypermediaServer\HypermediaAPI\HypermediaAPI.csproj", "{B75C4E2D-419E-446F-8E4C-CDFAE6DEDD53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcHost", "HypermediaServer\HypermediaServer\MvcHost\MvcHost.csproj", "{93DAA714-74D3-481D-9CE1-0CC67E0DD6E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcHost", "HypermediaServer\MvcHost\MvcHost.csproj", "{93DAA714-74D3-481D-9CE1-0CC67E0DD6E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
