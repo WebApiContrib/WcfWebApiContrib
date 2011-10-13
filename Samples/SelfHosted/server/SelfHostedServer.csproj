@@ -99,6 +99,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebApiContrib.Formatters.Core">
+      <HintPath>packages\WebAPIContrib.0.5.0\lib\WebApiContrib.Formatters.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebApiContrib.MessageHandlers">
+      <HintPath>packages\WebAPIContrib.0.5.0\lib\WebApiContrib.MessageHandlers.dll</HintPath>
+    </Reference>
+    <Reference Include="WebApiContrib.OperationHandlers, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\WebAPIContrib.0.5.0\lib\WebApiContrib.OperationHandlers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Host\OperationHandlerFactory.cs" />
@@ -114,12 +124,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\source\WebApiContrib.OperationHandlers\WebApiContrib.OperationHandlers.csproj">
-      <Project>{12108575-63A9-4C1B-90E6-8E0BA00D2B3C}</Project>
-      <Name>WebApiContrib.OperationHandlers</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

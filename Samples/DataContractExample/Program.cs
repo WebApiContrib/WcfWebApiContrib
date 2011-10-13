@@ -16,7 +16,7 @@ namespace DataContractExample
         static void Main(string[] args)
         {
             var config = new HttpConfiguration();
-            config.Formatters.UseDataContractSerializer<Contact>();
+            config.Formatters.XmlFormatter.UseDataContractSerializer = true;
 
             var host = new HttpServiceHost(typeof(ContactsResource), config, new Uri("http://localhost:8080/"));
             host.Open();
@@ -24,11 +24,12 @@ namespace DataContractExample
             var client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:8080/");
             var newContact = new Contact {FirstName = "Brad", LastName = "Abrams"};
-            var content = new ObjectContent<Contact>(newContact,"application/xml").UseDataContractSerializer();
+            var content = new ObjectContent<Contact>(newContact,"application/xml");
+            content.Formatters.XmlFormatter.UseDataContractSerializer = true;
             var response = client.Post("contacts", content);
             response = client.Get("contacts");
             
-            var contacts = response.Content.ReadAsDataContract<Contact[]>();
+            var contacts = response.Content.ReadAs<Contact[]>();
             foreach (var contact in contacts)
             {
                 Console.WriteLine(string.Format("Contact: FirstName={0}, LastName={1}", contact.FirstName, contact.LastName));

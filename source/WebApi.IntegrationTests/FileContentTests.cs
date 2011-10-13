@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.Text;
 using System.Collections.Generic;
@@ -36,5 +37,26 @@ namespace WebApi.IntegrationTests {
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
+
+
+        [TestMethod]
+        public void PostContent() {
+            var content = new StringContent("This is some content");
+            content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+            var serviceUri = new Uri("http://localhost:1017/");
+            var config = new HttpConfiguration();
+
+            var host = new HttpServiceHost(typeof(TestService), config, new[] { serviceUri });
+
+            host.Open();
+
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = serviceUri;
+
+            var response = httpClient.Post("ResourceA", content);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        }
+
     }
 }
