@@ -21,7 +21,7 @@ namespace WebApi.IntegrationTests {
         [WebGet(UriTemplate="ResourceA")]
         public HttpResponseMessage GetResourceA(HttpRequestMessage httpRequestMessage) {
 
-            var prop = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+            var prop = httpRequestMessage.Properties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
          
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(prop.Address);
