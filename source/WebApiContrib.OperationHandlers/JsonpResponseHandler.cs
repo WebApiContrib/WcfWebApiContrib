@@ -16,7 +16,7 @@ public class JsonpResponseHandler : HttpOperationHandler<HttpResponseMessage, Ht
 			var queryString = HttpUtility.ParseQueryString(response.RequestMessage.RequestUri.Query);
 			if(!string.IsNullOrEmpty(queryString["callback"])) {
 				var callback = queryString["callback"];
-				sb.Append(callback + "("+response.Content.ReadAsString()+")" );
+				sb.Append(callback + "("+response.Content.ReadAsStringAsync().Result+")" );
 				response.Content = new StringContent(sb.ToString());
 				response.Content.Headers.Clear();
 				response.Content.Headers.AddWithoutValidation("Content-Type","application/json");

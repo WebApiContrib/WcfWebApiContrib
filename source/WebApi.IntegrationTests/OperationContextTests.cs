@@ -49,9 +49,9 @@ namespace WebApi.IntegrationTests {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = serviceUri;
 
-            var response = httpClient.Get("ResourceA");
+            var response = httpClient.GetAsync("ResourceA").Result;
 
-            Assert.AreEqual("127.0.0.1", response.Content.ReadAsString());
+            Assert.AreEqual("127.0.0.1", response.Content.ReadAsStringAsync().Result);
         }
     }
 }

@@ -3,10 +3,12 @@ using System.Net.Http;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Nito.AsyncEx;
 
 namespace WebApi.IntegrationTests {
     [TestClass]
@@ -22,9 +24,15 @@ namespace WebApi.IntegrationTests {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = serviceUri;
 
-            var response = httpClient.Get("ResourceWithReasonPhrase");
+            string reasonPhrase = null;
 
-            Assert.AreEqual("All Good", response.ReasonPhrase);
+
+            httpClient.GetAsync("ResourceWithReasonPhrase")
+                    .ContinueWith((t) => {
+                                        reasonPhrase = t.Result.ReasonPhrase;
+                                    }).Wait();
+
+            Assert.AreEqual("All Good", reasonPhrase);
         }
     }
 }

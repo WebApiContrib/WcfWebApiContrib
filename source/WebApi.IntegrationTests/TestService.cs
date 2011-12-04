@@ -32,7 +32,7 @@ namespace WebApi.IntegrationTests {
         public HttpResponseMessage PostResourceA(HttpRequestMessage httpRequestMessage) {
             
 
-            var stream = httpRequestMessage.Content.ContentReadStream;
+            var stream = httpRequestMessage.Content.ReadAsStreamAsync().Result;
             var memoryStream = new MemoryStream();
             stream.CopyTo(memoryStream);
             var response = new HttpResponseMessage(HttpStatusCode.OK);

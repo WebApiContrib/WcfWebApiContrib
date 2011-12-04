@@ -38,7 +38,7 @@ namespace WebApi.IntegrationTests {
                 // This will cause the test to pass: content.Formatters.Add(new PlainTextFormatter());
 
                 //Act
-                var result = content.ReadAsString(); // Why does this change the media type of my content?
+                var result = content.ReadAsStringAsync().Result; // Why does this change the media type of my content?
                 var mediaType = content.Headers.ContentType.MediaType;
 
                 //Assert
@@ -73,7 +73,7 @@ namespace WebApi.IntegrationTests {
                 client.BaseAddress = serviceUri;
 
                 //Act
-                var response = client.Get("foo2");
+                var response = client.GetAsync("foo2").Result;
 
                 var mediaType = response.Content.Headers.ContentType.MediaType;
 
@@ -109,7 +109,7 @@ namespace WebApi.IntegrationTests {
 
                 //Act
                 request.RequestUri = new Uri(serviceUri, "foo");
-                var response = client.Send(request);
+                var response = client.SendAsync(request).Result;
 
                 var mediaType = response.Content.Headers.ContentType.MediaType;
 
@@ -119,6 +119,7 @@ namespace WebApi.IntegrationTests {
                 host.Close();
             }
 
+            // Since Preview 6 this now fails. Not exactly sure why, but I think it is related to ObjectContent
             [TestMethod]
             public void CompressionHandlerChangesMediaType() {
                 //Arrange
@@ -141,7 +142,7 @@ namespace WebApi.IntegrationTests {
                 client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
                 //Act
                 request.RequestUri = new Uri(serviceUri, "foo3");
-                var response = client.Send(request);
+                var response = client.SendAsync(request).Result;
 
                 var mediaType = response.Content.Headers.ContentType.MediaType;
 
@@ -162,7 +163,7 @@ namespace WebApi.IntegrationTests {
                 var content = new ObjectContent<foo>(input);
 
                 //Act
-                var output = content.ReadAs();
+                var output = content.ReadAsAsync<foo>().Result;
 
                 //Assert
                 Assert.AreEqual(input, output);
@@ -180,7 +181,7 @@ namespace WebApi.IntegrationTests {
                 var formatters = content.Formatters;
 
                 //Assert
-                Assert.AreEqual(3, formatters.Count);
+                Assert.AreEqual(4, formatters.Count);
 
             }
 
@@ -206,7 +207,7 @@ namespace WebApi.IntegrationTests {
                 var content = new ObjectContent<foo>(input, "application/json");
 
                 //Act
-                var result = content.ReadAsString();
+                var result = content.ReadAsStringAsync().Result;
                 var mediaType = content.Headers.ContentType.MediaType;
 
                 //Assert
@@ -222,7 +223,7 @@ namespace WebApi.IntegrationTests {
                 var request = new HttpRequestMessage();
 
                 //Act
-                var result = content.ReadAsString();
+                var result = content.ReadAsStringAsync().Result;
                 var mediaType = content.Headers.ContentType.MediaType;
 
                 //Assert
@@ -238,7 +239,7 @@ namespace WebApi.IntegrationTests {
                 var content = new ObjectContent<string>(httpContent, new[] { new PlainTextFormatter() });
 
                 //Act
-                var result = content.ReadAs();
+                var result = content.ReadAsAsync<string>().Result;
 
                 //Assert
                 Assert.AreEqual("Hello world", result);  // This fails because it falls back the XmlFormatter
@@ -254,7 +255,7 @@ namespace WebApi.IntegrationTests {
                 content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
 
                 var objectContent = new ObjectContent(typeof(object), content, new[] { new PlainTextFormatter() });
-                var result = objectContent.ReadAs();
+                var result = objectContent.ReadAsAsync().Result;
 
                 Assert.AreEqual(typeof(string), result.GetType());
 
@@ -267,7 +268,7 @@ namespace WebApi.IntegrationTests {
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
 
                 var objectContent = new ObjectContent(typeof(object), content, new[] { new XmlUsingXDocumentFormatter() });
-                var result = objectContent.ReadAs();
+                var result = objectContent.ReadAsAsync().Result;
 
                 Assert.AreEqual(typeof(XDocument), result.GetType());
 
