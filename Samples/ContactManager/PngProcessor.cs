@@ -2,6 +2,8 @@
 //   Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 
+using Microsoft.ApplicationServer.Http.Description;
+
 namespace ContactManager
 {
     using System;

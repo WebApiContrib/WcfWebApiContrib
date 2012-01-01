@@ -17,9 +17,6 @@ namespace WebApiContrib.MessageHandlers {
             
         }
 
-        protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken) {
-            throw new NotImplementedException();
-        }
 
         protected override Task<HttpResponseMessage> SendAsync(
                                             HttpRequestMessage request,
@@ -53,10 +50,6 @@ namespace WebApiContrib.MessageHandlers {
             return new Task(() => { });
         }
 
-        protected override void SerializeToStream(
-                                                Stream stream,
-                                                TransportContext context) {
-        }
 
         protected override bool TryComputeLength(out long length) {
             length = -1;

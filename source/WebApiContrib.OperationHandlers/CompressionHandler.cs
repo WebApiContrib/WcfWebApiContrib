@@ -31,11 +31,6 @@ namespace WebApiContrib.OperationHandlers {
             Headers.ContentType = _Content.Headers.ContentType;
         }
 
-        protected override void SerializeToStream(Stream stream, TransportContext context) {
-            using (var compressedStream = new GZipStream(stream, CompressionMode.Compress, false)) {
-                _Content.CopyTo(compressedStream);
-            }
-        }
 
         protected override bool TryComputeLength(out long length) {
             length = -1;
@@ -43,7 +38,15 @@ namespace WebApiContrib.OperationHandlers {
         }
 
         protected override Task SerializeToStreamAsync(Stream stream, TransportContext context) {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(()=> {
+                                             using (
+                                                 var compressedStream = new GZipStream(stream, CompressionMode.Compress,
+                                                                                       false)) {
+                                                 _Content.CopyToAsync(compressedStream);
+
+                                             }
+                                         });
+
         }
 
     }

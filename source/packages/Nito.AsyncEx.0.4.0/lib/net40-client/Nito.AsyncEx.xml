@@ -1,0 +1,2311 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>Nito.AsyncEx</name>
+  </assembly>
+  <members>
+    <member name="T:Nito.AsyncEx.SynchronizationContextHelpers">
+      <summary>
+            Provides helper types for <see cref="T:System.Threading.SynchronizationContext" />.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.SynchronizationContextHelpers.CurrentOrDefault">
+      <summary>
+            Retrieves the current synchronization context, or the default synchronization context if there is no current synchronization context.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;SynchronizationContext&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="T:Nito.AsyncEx.SynchronizationContextHelpers.SynchronizationContextSwitcher">
+      <summary>
+            Utility class for temporarily switching <see cref="T:System.Threading.SynchronizationContext" /> implementations.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.SynchronizationContextHelpers.SynchronizationContextSwitcher.oldContext">
+      <summary>
+            The previous <see cref="T:System.Threading.SynchronizationContext" />.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.SynchronizationContextHelpers.SynchronizationContextSwitcher.#ctor(System.Threading.SynchronizationContext)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.SynchronizationContextHelpers.SynchronizationContextSwitcher" /> class, installing the new <see cref="T:System.Threading.SynchronizationContext" />.
+            </summary>
+      <param name="newContext">The new <see cref="T:System.Threading.SynchronizationContext" />.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.SynchronizationContextHelpers.SynchronizationContextSwitcher.System#IDisposable#Dispose">
+      <summary>
+            Restores the old <see cref="T:System.Threading.SynchronizationContext" />.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.Internal.RefOutArg">
+      <summary>
+            A wrapper around a "ref" or "out" argument invoked dynamically.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.RefOutArg.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.Internal.RefOutArg" /> class.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.RefOutArg.Create``1">
+      <summary>
+            Creates a new instance of the <see cref="T:Nito.AsyncEx.Internal.RefOutArg" /> class wrapping the default value of <typeparamref name="T" />.
+            </summary>
+      <typeparam name="T">The type of value to wrap.</typeparam>
+      <returns>A new instance of the <see cref="T:Nito.AsyncEx.Internal.RefOutArg" /> class wrapping the default value of <typeparamref name="T" />.</returns>
+      <ensures>Contract.Result&lt;RefOutArg&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.RefOutArg.Create(System.Object)">
+      <summary>
+            Creates a new instance of the <see cref="T:Nito.AsyncEx.Internal.RefOutArg" /> class wrapping the specified value.
+            </summary>
+      <param name="value">The value to wrap.</param>
+      <returns>A new instance of the <see cref="T:Nito.AsyncEx.Internal.RefOutArg" /> class wrapping the specified value.</returns>
+      <ensures>Contract.Result&lt;RefOutArg&gt;() != null</ensures>
+      <ensures>Contract.Result&lt;RefOutArg&gt;().ValueAsObject == value</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.RefOutArg.ToString">
+      <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+      <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    </member>
+    <member name="P:Nito.AsyncEx.Internal.RefOutArg.ValueAsObject">
+      <summary>
+            Gets or sets the wrapped value as an object.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.Internal.RefOutArg.Value">
+      <summary>
+            Gets or sets the wrapped value.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.PropertyProgress`1">
+      <summary>
+            A progress implementation that stores progress updates in a property. If this instance is created on a UI thread, its <see cref="P:Nito.AsyncEx.PropertyProgress`1.Progress" /> property is suitable for data binding.
+            </summary>
+      <typeparam name="T">The type of progress value.</typeparam>
+      <invariant>this.context != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.PropertyProgress`1.context">
+      <summary>
+            The context of the thread that created this instance.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.PropertyProgress`1.progress">
+      <summary>
+            The last reported progress value.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.PropertyProgress`1.#ctor(`0)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.PropertyProgress`1" /> class.
+            </summary>
+      <param name="initialProgress">The initial progress value.</param>
+    </member>
+    <member name="P:Nito.AsyncEx.PropertyProgress`1.Progress">
+      <summary>
+            The last reported progress value.
+            </summary>
+    </member>
+    <member name="E:Nito.AsyncEx.PropertyProgress`1.PropertyChanged">
+      <summary>
+            Occurs when the property value changes.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncFactory">
+      <summary>
+            Provides asynchronous wrappers.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm(System.Func{System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult})">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.ToBegin(System.Threading.Tasks.Task,System.AsyncCallback,System.Object)">
+      <summary>
+            Wraps a <see cref="T:System.Threading.Tasks.Task" /> into the Begin method of an APM pattern.
+            </summary>
+      <param name="task">The task to wrap.</param>
+      <param name="callback">The callback method passed into the Begin method of the APM pattern.</param>
+      <param name="state">The state passed into the Begin method of the APM pattern.</param>
+      <returns>The asynchronous operation, to be returned by the Begin method of the APM pattern.</returns>
+      <requires>task != null</requires>
+      <ensures>Contract.Result&lt;IAsyncResult&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.ToEnd(System.IAsyncResult)">
+      <summary>
+            Wraps a <see cref="T:System.Threading.Tasks.Task" /> into the End method of an APM pattern.
+            </summary>
+      <param name="asyncResult">The asynchronous operation returned by the matching Begin method of this APM pattern.</param>
+      <returns>The result of the asynchronous operation, to be returned by the End method of the APM pattern.</returns>
+      <requires>asyncResult != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``1(System.Func{``0,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``2(System.Func{``0,``1,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``3(System.Func{``0,``1,``2,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``4(System.Func{``0,``1,``2,``3,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``5(System.Func{``0,``1,``2,``3,``4,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``6(System.Func{``0,``1,``2,``3,``4,``5,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``7(System.Func{``0,``1,``2,``3,``4,``5,``6,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``11(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``12(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``13(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <typeparam name="TArg12">The type of argument 12.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="arg12">Argument 12.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.FromApm``14(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <typeparam name="TArg12">The type of argument 12.</typeparam>
+      <typeparam name="TArg13">The type of argument 13.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="arg12">Argument 12.</param>
+      <param name="arg13">Argument 13.</param>
+      <returns />
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="T:Nito.AsyncEx.WaitHandleExtensions">
+      <summary>
+            Provides extension methods for the <see cref="T:System.Threading.WaitHandle" /> class.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.WaitHandleExtensions.WaitOne(System.Threading.WaitHandle,System.Threading.CancellationToken)">
+      <summary>
+            Blocks the current thread until the <see cref="T:System.Threading.WaitHandle" /> is signalled or the <see cref="T:System.Threading.CancellationToken" /> is cancelled.
+            </summary>
+      <param name="waitHandle">The wait handle. May not be <c>null</c>.</param>
+      <param name="cancellationToken">The cancellation token.</param>
+      <exception cref="T:System.OperationCanceledException">The <paramref name="cancellationToken" /> was cancelled before the <paramref name="waitHandle" /> was signalled.</exception>
+      <requires>waitHandle != null</requires>
+    </member>
+    <member name="T:Nito.AsyncEx.TaskConstants">
+      <summary>
+            Provides completed task constants.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.TaskConstants.BooleanTrue">
+      <summary>
+            A task that has been completed with the value <c>true</c>.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;() != null</ensures>
+        <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;().IsCompleted</ensures>
+        <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;().Result</ensures>
+      </getter>
+    </member>
+    <member name="P:Nito.AsyncEx.TaskConstants.BooleanFalse">
+      <summary>
+            A task that has been completed with the value <c>false</c>.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;() != null</ensures>
+        <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;().IsCompleted</ensures>
+        <ensures>!Contract.Result&lt;Task&lt;bool&gt;&gt;().Result</ensures>
+      </getter>
+    </member>
+    <member name="P:Nito.AsyncEx.TaskConstants.Int32Zero">
+      <summary>
+            A task that has been completed with the value <c>0</c>.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Task&lt;int&gt;&gt;() != null</ensures>
+        <ensures>Contract.Result&lt;Task&lt;int&gt;&gt;().IsCompleted</ensures>
+        <ensures>Contract.Result&lt;Task&lt;int&gt;&gt;().Result == 0</ensures>
+      </getter>
+    </member>
+    <member name="P:Nito.AsyncEx.TaskConstants.Int32NegativeOne">
+      <summary>
+            A task that has been completed with the value <c>-1</c>.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Task&lt;int&gt;&gt;() != null</ensures>
+        <ensures>Contract.Result&lt;Task&lt;int&gt;&gt;().IsCompleted</ensures>
+        <ensures>Contract.Result&lt;Task&lt;int&gt;&gt;().Result == -1</ensures>
+      </getter>
+    </member>
+    <member name="T:Nito.AsyncEx.TaskConstants`1">
+      <summary>
+            Provides completed task constants.
+            </summary>
+      <typeparam name="T">The type of the task result.</typeparam>
+    </member>
+    <member name="P:Nito.AsyncEx.TaskConstants`1.Default">
+      <summary>
+            A task that has been completed with the default value of <typeparamref name="T" />.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Task&lt;T&gt;&gt;() != null</ensures>
+        <ensures>Contract.Result&lt;Task&lt;T&gt;&gt;().IsCompleted</ensures>
+      </getter>
+    </member>
+    <member name="T:Nito.AsyncEx.ExceptionHelpers">
+      <summary>
+            Provides helper (non-extension) methods dealing with exceptions.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.ExceptionHelpers.exceptionDispatchInfo">
+      <summary>
+            The <c>ExceptionDispatchInfo</c> type, or <c>null</c> if the type does not exist (i.e., pre-.NET 4.5).
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.ExceptionHelpers.prepForRemoting">
+      <summary>
+            The <c>Exception.PrepForRemoting</c> method, or <c>null</c> if the method was not found.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.ExceptionHelpers.#cctor">
+      <summary>
+            Initializes the <see cref="T:Nito.AsyncEx.ExceptionHelpers" /> class.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.ExceptionHelpers.TryPrepForRemoting(System.Exception)">
+      <summary>
+            Attempts to call <c>Exception.PrepForRemoting</c> on the given exception.
+            </summary>
+      <param name="exception">The exception. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if the method was invoked; <c>false</c> if there was some error.</returns>
+      <requires>exception != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.ExceptionHelpers.TryAddStackTrace(System.Exception)">
+      <summary>
+            Attempts to add the original stack trace to the <see cref="P:System.Exception.Data" /> collection.
+            </summary>
+      <param name="exception">The exception. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if the stack trace was successfully saved; <c>false</c> otherwise.</returns>
+      <requires>exception != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.ExceptionHelpers.PrepareForRethrow(System.Exception)">
+      <summary>
+            Attempts to prepare the exception for re-throwing by preserving the stack trace.
+            </summary>
+      <param name="exception">The exception. May not be <c>null</c>.</param>
+      <returns>The <see cref="T:System.Exception" /> that was passed into this method.</returns>
+      <requires>exception != null</requires>
+      <ensures>Contract.Result&lt;Exception&gt;() != null</ensures>
+    </member>
+    <member name="T:Nito.AsyncEx.DataflowProgress`1">
+      <summary>
+            A progress implementation that sends progress reports to a dataflow block (via <see cref="M:System.Threading.Tasks.Dataflow.DataflowBlock.Post``1(System.Threading.Tasks.Dataflow.ITargetBlock{``0},``0)" />). Optionally shuts down the dataflow block when the task completes.
+            </summary>
+      <typeparam name="T">The type of progress value.</typeparam>
+      <invariant>this.block != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.DataflowProgress`1.block">
+      <summary>
+            The dataflow block to pass progress reports to.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.DataflowProgress`1.#ctor(System.Threading.Tasks.Dataflow.ITargetBlock{`0})">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.DataflowProgress`1" /> class.
+            </summary>
+      <param name="block">The dataflow block to pass progress reports to. May not be <c>null</c>.</param>
+      <requires>block != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.DataflowProgress`1.ObserveTaskForCompletion(System.Threading.Tasks.Task)">
+      <summary>
+            Watches the task, and shuts down the dataflow block (via <see cref="M:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault(System.Exception)" /> or <see cref="M:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete" /> when the task completes.
+            </summary>
+      <param name="task">The task to watch. May not be <c>null</c>.</param>
+      <requires>task != null</requires>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncContext">
+      <summary>
+            Provides a context for asynchronous operations. This class is threadsafe.
+            </summary>
+      <remarks>
+        <para>
+          <see cref="M:Nito.AsyncEx.AsyncContext.Run" /> may only be called once. After <see cref="M:Nito.AsyncEx.AsyncContext.Run" /> returns, the async context should be disposed.</para>
+        <para>If any action queued to the async context raises an exception, then <see cref="M:Nito.AsyncEx.AsyncContext.Run" /> will propogate that exception. Note that tasks queued to the task scheduler will not cause an exception to be propogated, since any exception is caught and placed on the task itself.</para>
+      </remarks>
+      <invariant>this.actionQueue != null</invariant>
+      <invariant>this.synchronizationContext != null</invariant>
+      <invariant>this.taskScheduler != null</invariant>
+      <invariant>this.taskFactory != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.actionQueue">
+      <summary>
+            The queue holding the actions to run.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.synchronizationContext">
+      <summary>
+            The <see cref="P:Nito.AsyncEx.AsyncContext.SynchronizationContext" /> for this <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.taskScheduler">
+      <summary>
+            The <see cref="T:System.Threading.Tasks.TaskScheduler" /> for this <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.taskFactory">
+      <summary>
+            The <see cref="T:System.Threading.Tasks.TaskFactory" /> for this <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.outstandingOperations">
+      <summary>
+            The number of outstanding operations, including actions in the queue.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.#ctor(System.Action)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.AsyncContext" /> class.
+            </summary>
+      <param name="action">The action to execute. May not be <c>null</c>.</param>
+      <requires>action != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.Dispose">
+      <summary>
+            Disposes all resources used by this class. This method should NOT be called while <see cref="M:Nito.AsyncEx.AsyncContext.Run" /> is executing.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.Queue(System.Action)">
+      <summary>
+            Queues an action for execution by <see cref="M:Nito.AsyncEx.AsyncContext.Run" />. If the async context has been aborted, then this method has no effect.
+            </summary>
+      <param name="action">The action to execute. May not be <c>null</c>.</param>
+      <requires>action != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.Run">
+      <summary>
+            Executes all queued actions. This method returns when all actions have been completed and the outstanding asynchronous operation count is zero (unless <see cref="M:Nito.AsyncEx.AsyncContext.Abort" /> is called).
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.Run(System.Action)">
+      <summary>
+            Queues an action for execution, and begins executing all actions in the queue. This method returns when all actions have been completed and the outstanding asynchronous operation count is zero (unless <see cref="M:Nito.AsyncEx.AsyncContext.Abort" /> is called).
+            </summary>
+      <param name="action">The action to execute. May not be <c>null</c>.</param>
+      <requires>action != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.Abort">
+      <summary>
+            Aborts the processing of this async context. Any actions already queued will be executed, but additional queued actions will be ignored, and <see cref="M:Nito.AsyncEx.AsyncContext.Run" /> may return with asynchronous operations outstanding.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.OperationStarted">
+      <summary>
+            Increments the outstanding asynchronous operation count.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.OperationCompleted">
+      <summary>
+            Decrements the outstanding asynchronous operation count.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContext.Current">
+      <summary>
+            Gets the current <see cref="T:Nito.AsyncEx.AsyncContext" /> for this thread, or <c>null</c> if this thread is not currently running in an <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContext.SynchronizationContext">
+      <summary>
+            Gets the <see cref="P:Nito.AsyncEx.AsyncContext.SynchronizationContext" /> for this <see cref="T:Nito.AsyncEx.AsyncContext" />. From inside <see cref="M:Nito.AsyncEx.AsyncContext.Run" />, this value is always equal to <see cref="P:System.Threading.SynchronizationContext.Current" />.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;SynchronizationContext&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContext.Scheduler">
+      <summary>
+            Gets the <see cref="T:System.Threading.Tasks.TaskScheduler" /> for this <see cref="T:Nito.AsyncEx.AsyncContext" />. From inside <see cref="M:Nito.AsyncEx.AsyncContext.Run" />, this value is only equal to <see cref="P:System.Threading.Tasks.TaskScheduler.Current" /> if a <see cref="T:System.Threading.Tasks.Task" /> is executing.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;TaskScheduler&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContext.Factory">
+      <summary>
+            Gets the <see cref="T:System.Threading.Tasks.TaskFactory" /> for this <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;TaskFactory&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext">
+      <summary>
+            The <see cref="P:Nito.AsyncEx.AsyncContext.SynchronizationContext" /> implementation used by <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+      <invariant>this.context != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.context">
+      <summary>
+            The async context.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.#ctor(Nito.AsyncEx.AsyncContext)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext" /> class.
+            </summary>
+      <param name="context">The async context.</param>
+      <requires>context != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.Post(System.Threading.SendOrPostCallback,System.Object)">
+      <summary>
+            Dispatches an asynchronous message to the async context.
+            </summary>
+      <param name="d">The <see cref="T:System.Threading.SendOrPostCallback" /> delegate to call. May not be <c>null</c>.</param>
+      <param name="state">The object passed to the delegate.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.Send(System.Threading.SendOrPostCallback,System.Object)">
+      <summary>
+            Dispatches an asynchronous message to the async context, and waits for it to complete.
+            </summary>
+      <param name="d">The <see cref="T:System.Threading.SendOrPostCallback" /> delegate to call. May not be <c>null</c>.</param>
+      <param name="state">The object passed to the delegate.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.OperationStarted">
+      <summary>
+            Responds to the notification that an operation has started by incrementing the outstanding asynchronous operation count.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.OperationCompleted">
+      <summary>
+            Responds to the notification that an operation has completed by decrementing the outstanding asynchronous operation count.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.CreateCopy">
+      <summary>
+            Creates a copy of the synchronization context.
+            </summary>
+      <returns>A new <see cref="T:System.Threading.SynchronizationContext" /> object.</returns>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.GetHashCode">
+      <summary>
+            Returns a hash code for this instance.
+            </summary>
+      <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.Equals(System.Object)">
+      <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to this instance. It is considered equal if it refers to the same underlying async context as this instance.
+            </summary>
+      <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+      <returns>
+        <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.Equals(Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext)">
+      <summary>
+            Determines whether the specified <see cref="T:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext" /> is equal to this instance. It is considered equal if it refers to the same underlying async context as this instance.
+            </summary>
+      <param name="other">The <see cref="T:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext" /> to compare with this instance.</param>
+      <returns>
+        <c>true</c> if the specified <see cref="T:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContext.AsyncContextSynchronizationContext.Context">
+      <summary>
+            Gets the async context.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;AsyncContext&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncContext.ActionQueue">
+      <summary>
+            A blocking queue.
+            </summary>
+      <invariant>this.queue != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.ActionQueue.queue">
+      <summary>
+            The underlying blocking collection.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.ActionQueue.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.AsyncContext.ActionQueue" /> class.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.ActionQueue.GetConsumingEnumerable">
+      <summary>
+            Gets a blocking enumerable that removes items from the queue. This enumerable only completes after <see cref="M:Nito.AsyncEx.AsyncContext.ActionQueue.CompleteAdding" /> has been called.
+            </summary>
+      <returns>A blocking enumerable that removes items from the queue.</returns>
+      <ensures>Contract.Result&lt;IEnumerable&lt;Action&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.ActionQueue.TryAdd(System.Action)">
+      <summary>
+            Attempts to add the item to the queue. If the queue has been marked as complete for adding, this method has no effect.
+            </summary>
+      <param name="item">The item to enqueue.</param>
+      <requires>item != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.ActionQueue.CompleteAdding">
+      <summary>
+            Marks the queue as complete for adding, allowing the enumerator returned from <see cref="M:Nito.AsyncEx.AsyncContext.ActionQueue.GetConsumingEnumerable" /> to eventually complete. This method may be called several times.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.ActionQueue.Dispose">
+      <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler">
+      <summary>
+            A task scheduler which schedules tasks to an async context.
+            </summary>
+      <invariant>this.context != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler.context">
+      <summary>
+            The async context for this task scheduler.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler.#ctor(Nito.AsyncEx.AsyncContext)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler" /> class.
+            </summary>
+      <param name="context">The async context for this task scheduler. May not be <c>null</c>.</param>
+      <requires>context != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler.GetScheduledTasks">
+      <summary>
+            Generates an enumerable of <see cref="T:System.Threading.Tasks.Task" /> instances currently queued to the scheduler waiting to be executed.
+            </summary>
+      <returns>An enumerable that allows traversal of tasks currently queued to this scheduler.</returns>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler.QueueTask(System.Threading.Tasks.Task)">
+      <summary>
+            Queues a <see cref="T:System.Threading.Tasks.Task" /> to the scheduler.
+            </summary>
+      <param name="task">The <see cref="T:System.Threading.Tasks.Task" /> to be queued.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler.TryExecuteTaskInline(System.Threading.Tasks.Task,System.Boolean)">
+      <summary>
+            Determines whether the provided <see cref="T:System.Threading.Tasks.Task" /> can be executed synchronously in this call, and if it can, executes it.
+            </summary>
+      <param name="task">The <see cref="T:System.Threading.Tasks.Task" /> to be executed.</param>
+      <param name="taskWasPreviouslyQueued">A Boolean denoting whether or not task has previously been queued. If this parameter is True, then the task may have been previously queued (scheduled); if False, then the task is known not to have been queued, and this call is being made in order to execute the task inline without queuing it.</param>
+      <returns>A Boolean value indicating whether the task was executed inline.</returns>
+      <exception cref="T:System.InvalidOperationException">The <paramref name="task" /> was already executed.</exception>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContext.AsyncContextTaskScheduler.MaximumConcurrencyLevel">
+      <summary>
+            Indicates the maximum concurrency level this <see cref="T:System.Threading.Tasks.TaskScheduler" /> is able to support.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.TaskFactoryExtensions">
+      <summary>
+            Provides extension methods for task factories.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskFactoryExtensions.With(System.Threading.Tasks.TaskFactory,System.Nullable{System.Threading.CancellationToken},System.Nullable{System.Threading.Tasks.TaskCreationOptions},System.Nullable{System.Threading.Tasks.TaskContinuationOptions},System.Threading.Tasks.TaskScheduler)">
+      <summary>
+            Constructs a new <see cref="T:System.Threading.Tasks.TaskFactory" /> with the specified properties changed.
+            </summary>
+      <param name="this">The base <see cref="T:System.Threading.Tasks.TaskFactory" /> used for property default values. May not be <c>null</c>.</param>
+      <param name="CancellationToken">The default CancellationToken that will be assigned to tasks created by this TaskFactory unless another CancellationToken is explicitly specified while calling the factory methods.</param>
+      <param name="CreationOptions">The default TaskCreationOptions to use when creating tasks with this TaskFactory.</param>
+      <param name="ContinuationOptions">The default TaskContinuationOptions to use when creating continuation tasks with this TaskFactory.</param>
+      <param name="Scheduler">The default TaskScheduler to use to schedule any Tasks created with this TaskFactory.</param>
+      <returns />
+      <requires>@this != null</requires>
+      <ensures>Contract.Result&lt;TaskFactory&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskFactoryExtensions.StartNew(System.Threading.Tasks.TaskFactory,System.Action,System.Threading.Tasks.TaskScheduler)">
+      <summary>
+            Creates and starts a task.
+            </summary>
+      <param name="this">The base <see cref="T:System.Threading.Tasks.TaskFactory" />. May not be <c>null</c>.</param>
+      <param name="action">The action delegate to execute. May not be <c>null</c>.</param>
+      <param name="scheduler">The TaskScheduler that is used to schedule the created Task. May not be <c>null</c>.</param>
+      <returns>The started task.</returns>
+      <requires>@this != null</requires>
+      <requires>action != null</requires>
+      <requires>scheduler != null</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskFactoryExtensions.StartNew(System.Threading.Tasks.TaskFactory,System.Action,System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskScheduler)">
+      <summary>
+            Creates and starts a task.
+            </summary>
+      <param name="this">The base <see cref="T:System.Threading.Tasks.TaskFactory" />. May not be <c>null</c>.</param>
+      <param name="action">The action delegate to execute. May not be <c>null</c>.</param>
+      <param name="creationOptions">A TaskCreationOptions value that controls the behavior of the created Task.</param>
+      <param name="scheduler">The TaskScheduler that is used to schedule the created Task. May not be <c>null</c>.</param>
+      <returns>The started task.</returns>
+      <requires>@this != null</requires>
+      <requires>action != null</requires>
+      <requires>scheduler != null</requires>
+      <requires>Enum.IsDefined(typeof(TaskCreationOptions), creationOptions)</requires>
+      <ensures>Contract.Result&lt;Task&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskFactoryExtensions.StartNew``1(System.Threading.Tasks.TaskFactory,System.Func{``0},System.Threading.Tasks.TaskScheduler)">
+      <summary>
+            Creates and starts a task.
+            </summary>
+      <typeparam name="TResult">The type of the result of the task.</typeparam>
+      <param name="this">The base <see cref="T:System.Threading.Tasks.TaskFactory" />. May not be <c>null</c>.</param>
+      <param name="func">The action delegate to execute. May not be <c>null</c>.</param>
+      <param name="scheduler">The TaskScheduler that is used to schedule the created Task. May not be <c>null</c>.</param>
+      <returns>The started task.</returns>
+      <requires>@this != null</requires>
+      <requires>func != null</requires>
+      <requires>scheduler != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskFactoryExtensions.StartNew``1(System.Threading.Tasks.TaskFactory,System.Func{``0},System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskScheduler)">
+      <summary>
+            Creates and starts a task.
+            </summary>
+      <typeparam name="TResult">The type of the result of the task.</typeparam>
+      <param name="this">The base <see cref="T:System.Threading.Tasks.TaskFactory" />. May not be <c>null</c>.</param>
+      <param name="func">The action delegate to execute. May not be <c>null</c>.</param>
+      <param name="creationOptions">A TaskCreationOptions value that controls the behavior of the created Task.</param>
+      <param name="scheduler">The TaskScheduler that is used to schedule the created Task. May not be <c>null</c>.</param>
+      <returns>The started task.</returns>
+      <requires>@this != null</requires>
+      <requires>func != null</requires>
+      <requires>scheduler != null</requires>
+      <requires>Enum.IsDefined(typeof(TaskCreationOptions), creationOptions)</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="T:Nito.AsyncEx.TaskCompletionSource">
+      <summary>
+            Represents the producer side of a <see cref="T:System.Threading.Tasks.Task" /> unbound to a delegate, providing access to the consumer side through the <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> property.
+            </summary>
+      <invariant>this.tcs != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.TaskCompletionSource.tcs">
+      <summary>
+            The underlying TCS.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.TaskCompletionSource" /> class.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.#ctor(System.Object)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.TaskCompletionSource" /> class with the specified state.
+            </summary>
+      <param name="state">The state to use as the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />'s <see cref="P:System.IAsyncResult.AsyncState" />.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.#ctor(System.Threading.Tasks.TaskCreationOptions)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.TaskCompletionSource" /> class with the specified options.
+            </summary>
+      <param name="creationOptions">The options to use when creating the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.#ctor(System.Object,System.Threading.Tasks.TaskCreationOptions)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.TaskCompletionSource" /> class with the specified state and options.
+            </summary>
+      <param name="state">The state to use as the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />'s <see cref="P:System.IAsyncResult.AsyncState" />.</param>
+      <param name="creationOptions">The options to use when creating the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />.</param>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.SetCanceled">
+      <summary>
+            Transitions the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.Canceled" /> state.
+            </summary>
+      <exception cref="T:System.InvalidOperationException">The underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> has already been completed.</exception>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.TrySetCanceled">
+      <summary>
+            Attempts to transition the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.Canceled" /> state.
+            </summary>
+      <returns>
+        <c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.SetException(System.Exception)">
+      <summary>
+            Transitions the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.Faulted" /> state.
+            </summary>
+      <param name="exception">The exception to bind to this <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />. May not be <c>null</c>.</param>
+      <exception cref="T:System.InvalidOperationException">The underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> has already been completed.</exception>
+      <requires>exception != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.SetException(System.Collections.Generic.IEnumerable{System.Exception})">
+      <summary>
+            Transitions the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.Faulted" /> state.
+            </summary>
+      <param name="exceptions">The collection of exceptions to bind to this <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />. May not be <c>null</c> or contain <c>null</c> elements.</param>
+      <exception cref="T:System.InvalidOperationException">The underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> has already been completed.</exception>
+      <requires>exceptions != null</requires>
+      <requires>Contract.ForAll(exceptions, ex =&gt; ex != null)</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.TrySetException(System.Exception)">
+      <summary>
+            Attempts to transition the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.Faulted" /> state.
+            </summary>
+      <param name="exception">The exception to bind to this <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+      <requires>exception != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.TrySetException(System.Collections.Generic.IEnumerable{System.Exception})">
+      <summary>
+            Attempts to transition the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.Faulted" /> state.
+            </summary>
+      <param name="exceptions">The collection of exceptions to bind to this <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" />. May not be <c>null</c> or contain <c>null</c> elements.</param>
+      <returns>
+        <c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+      <requires>exceptions != null</requires>
+      <requires>Contract.ForAll(exceptions, ex =&gt; ex != null)</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.SetResult">
+      <summary>
+            Transitions the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.RanToCompletion" /> state.
+            </summary>
+      <exception cref="T:System.InvalidOperationException">The underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> has already been completed.</exception>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSource.TrySetResult">
+      <summary>
+            Attempts to transition the underlying <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> into the <see cref="F:System.Threading.Tasks.TaskStatus.RanToCompletion" /> state.
+            </summary>
+      <returns>
+        <c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+    </member>
+    <member name="P:Nito.AsyncEx.TaskCompletionSource.Task">
+      <summary>
+            Gets the <see cref="P:Nito.AsyncEx.TaskCompletionSource.Task" /> created by this <see cref="T:Nito.AsyncEx.TaskCompletionSource" />.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.Internal.DynamicStaticTypeMembers">
+      <summary>
+            A dynamic object that allows access to a type's static members, resolved dynamically at runtime.
+            </summary>
+      <invariant>this.type != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.Trace">
+      <summary>
+            The trace source for failed binding messages.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.type">
+      <summary>
+            The underlying type.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.#ctor(System.Type)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.Internal.DynamicStaticTypeMembers" /> class wrapping the specified type.
+            </summary>
+      <param name="type">The underlying type to wrap.</param>
+      <requires>type != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.TryGetMember(System.Dynamic.GetMemberBinder,System.Object@)">
+      <summary>
+            Gets a value for a static property defined by the wrapped type.
+            </summary>
+      <param name="binder">Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the Console.WriteLine(sampleObject.SampleProperty) statement, where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, binder.Name returns "SampleProperty". The binder.IgnoreCase property specifies whether the member name is case-sensitive.</param>
+      <param name="result">The result of the get operation. For example, if the method is called for a property, you can assign the property value to <paramref name="result" />.</param>
+      <returns>
+            true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)
+            </returns>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.TrySetMember(System.Dynamic.SetMemberBinder,System.Object)">
+      <summary>
+            Sets a value for a static property defined by the wrapped type.
+            </summary>
+      <param name="binder">Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member to which the value is being assigned. For example, for the statement sampleObject.SampleProperty = "Test", where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, binder.Name returns "SampleProperty". The binder.IgnoreCase property specifies whether the member name is case-sensitive.</param>
+      <param name="value">The value to set to the member. For example, for sampleObject.SampleProperty = "Test", where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, the <paramref name="value" /> is "Test".</param>
+      <returns>
+            true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+            </returns>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.TryInvokeMember(System.Dynamic.InvokeMemberBinder,System.Object[],System.Object@)">
+      <summary>
+            Calls a static method defined by the wrapped type.
+            </summary>
+      <param name="binder">Provides information about the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the statement sampleObject.SampleMethod(100), where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, binder.Name returns "SampleMethod". The binder.IgnoreCase property specifies whether the member name is case-sensitive.</param>
+      <param name="args">The arguments that are passed to the object member during the invoke operation. For example, for the statement sampleObject.SampleMethod(100), where sampleObject is derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>args[0]</c> is equal to 100.</param>
+      <param name="result">The result of the member invocation.</param>
+      <returns>
+            true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+            </returns>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.Create(System.Type)">
+      <summary>
+            Creates a new instance of the <see cref="T:Nito.AsyncEx.Internal.DynamicStaticTypeMembers" /> class wrapping the specified type.
+            </summary>
+      <param name="type">The underlying type to wrap. May not be <c>null</c>.</param>
+      <returns>An instance of <see cref="T:Nito.AsyncEx.Internal.DynamicStaticTypeMembers" />, as a dynamic type.</returns>
+      <requires>type != null</requires>
+      <ensures>Contract.Result&lt;object&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.Create``1">
+      <summary>
+            Creates a new instance of the <see cref="T:Nito.AsyncEx.Internal.DynamicStaticTypeMembers" /> class wrapping the specified type.
+            </summary>
+      <typeparam name="T">The underlying type to wrap.</typeparam>
+      <returns>An instance of <see cref="T:Nito.AsyncEx.Internal.DynamicStaticTypeMembers" />, as a dynamic type.</returns>
+      <ensures>Contract.Result&lt;object&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.Internal.DynamicStaticTypeMembers.ToString">
+      <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+      <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    </member>
+    <member name="T:Nito.AsyncEx.ProducerProgress`1">
+      <summary>
+            A progress implementation that sends progress reports to a producer/consumer collection.
+            </summary>
+      <typeparam name="T">The type of progress value.</typeparam>
+      <invariant>this.collection != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.ProducerProgress`1.collection">
+      <summary>
+            The producer/consumer collection that receives progress reports.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.ProducerProgress`1.#ctor(System.Collections.Concurrent.IProducerConsumerCollection{`0})">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.ProducerProgress`1" /> class.
+            </summary>
+      <param name="collection">The producer/consumer collection that receives progress reports.</param>
+      <requires>collection != null</requires>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncFactory`1">
+      <summary>
+            Provides asynchronous wrappers.
+            </summary>
+      <typeparam name="TResult">The type of the result of the asychronous operation.</typeparam>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``1(System.Func{``0,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``2(System.Func{``0,``1,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``3(System.Func{``0,``1,``2,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``4(System.Func{``0,``1,``2,``3,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``5(System.Func{``0,``1,``2,``3,``4,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``6(System.Func{``0,``1,``2,``3,``4,``5,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``7(System.Func{``0,``1,``2,``3,``4,``5,``6,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``11(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``12(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``13(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <typeparam name="TArg12">The type of argument 12.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="arg12">Argument 12.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``14(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <typeparam name="TArg12">The type of argument 12.</typeparam>
+      <typeparam name="TArg13">The type of argument 13.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="arg12">Argument 12.</param>
+      <param name="arg13">Argument 13.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm(System.Func{System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end cancellable asynchronous method.
+            </summary>
+      <param name="beginMethod">The begin method. May not be <c>null</c>.</param>
+      <param name="endMethod">The end method. May not be <c>null</c>.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm(System.Func{System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0})">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <param name="beginMethod">The begin method. May not be <c>null</c>.</param>
+      <param name="endMethod">The end method. May not be <c>null</c>.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.ToBegin(System.Threading.Tasks.Task{`0},System.AsyncCallback,System.Object)">
+      <summary>
+            Wraps a <see cref="T:System.Threading.Tasks.Task`1" /> into the Begin method of an APM pattern.
+            </summary>
+      <param name="task">The task to wrap. May not be <c>null</c>.</param>
+      <param name="callback">The callback method passed into the Begin method of the APM pattern.</param>
+      <param name="state">The state passed into the Begin method of the APM pattern.</param>
+      <returns>The asynchronous operation, to be returned by the Begin method of the APM pattern.</returns>
+      <requires>task != null</requires>
+      <ensures>Contract.Result&lt;IAsyncResult&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.ToEnd(System.IAsyncResult)">
+      <summary>
+            Wraps a <see cref="T:System.Threading.Tasks.Task`1" /> into the End method of an APM pattern.
+            </summary>
+      <param name="asyncResult">The asynchronous operation returned by the matching Begin method of this APM pattern.</param>
+      <returns>The result of the asynchronous operation, to be returned by the End method of the APM pattern.</returns>
+      <requires>asyncResult != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``1(System.Func{``0,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``2(System.Func{``0,``1,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``3(System.Func{``0,``1,``2,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``4(System.Func{``0,``1,``2,``3,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``5(System.Func{``0,``1,``2,``3,``4,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``6(System.Func{``0,``1,``2,``3,``4,``5,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``7(System.Func{``0,``1,``2,``3,``4,``5,``6,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``11(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``12(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``13(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <typeparam name="TArg12">The type of argument 12.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="arg12">Argument 12.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.FromApm``14(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,System.AsyncCallback,Microsoft.TeamFoundation.Client.ICancelableAsyncResult},System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,System.Threading.CancellationToken)">
+      <summary>
+            Wraps a begin/end asynchronous method.
+            </summary>
+      <typeparam name="TArg0">The type of argument 0.</typeparam>
+      <typeparam name="TArg1">The type of argument 1.</typeparam>
+      <typeparam name="TArg2">The type of argument 2.</typeparam>
+      <typeparam name="TArg3">The type of argument 3.</typeparam>
+      <typeparam name="TArg4">The type of argument 4.</typeparam>
+      <typeparam name="TArg5">The type of argument 5.</typeparam>
+      <typeparam name="TArg6">The type of argument 6.</typeparam>
+      <typeparam name="TArg7">The type of argument 7.</typeparam>
+      <typeparam name="TArg8">The type of argument 8.</typeparam>
+      <typeparam name="TArg9">The type of argument 9.</typeparam>
+      <typeparam name="TArg10">The type of argument 10.</typeparam>
+      <typeparam name="TArg11">The type of argument 11.</typeparam>
+      <typeparam name="TArg12">The type of argument 12.</typeparam>
+      <typeparam name="TArg13">The type of argument 13.</typeparam>
+      <param name="beginMethod">The begin method.</param>
+      <param name="endMethod">The end method.</param>
+      <param name="arg0">Argument 0.</param>
+      <param name="arg1">Argument 1.</param>
+      <param name="arg2">Argument 2.</param>
+      <param name="arg3">Argument 3.</param>
+      <param name="arg4">Argument 4.</param>
+      <param name="arg5">Argument 5.</param>
+      <param name="arg6">Argument 6.</param>
+      <param name="arg7">Argument 7.</param>
+      <param name="arg8">Argument 8.</param>
+      <param name="arg9">Argument 9.</param>
+      <param name="arg10">Argument 10.</param>
+      <param name="arg11">Argument 11.</param>
+      <param name="arg12">Argument 12.</param>
+      <param name="arg13">Argument 13.</param>
+      <param name="token">The cancellation token.</param>
+      <returns>The result of the asynchronous operation.</returns>
+      <requires>beginMethod != null</requires>
+      <requires>endMethod != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;TResult&gt;&gt;() != null</ensures>
+    </member>
+    <member name="T:Nito.AsyncEx.IAsyncEnumerator`1">
+      <summary>
+            An asynchronous enumerator.
+            </summary>
+      <typeparam name="T">The type of element.</typeparam>
+    </member>
+    <member name="M:Nito.AsyncEx.IAsyncEnumerator`1.MoveNextAsync(System.Threading.CancellationToken)">
+      <summary>
+            Performs an asynchronous operation to move to the next element.
+            </summary>
+      <param name="cancellationToken">Cancellation token that can be used to cancel the operation.</param>
+      <returns>
+        <c>true</c> if there is another element; <c>false</c> otherwise.</returns>
+      <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;() != null</ensures>
+    </member>
+    <member name="P:Nito.AsyncEx.IAsyncEnumerator`1.Current">
+      <summary>
+            Retrieves the current element. This property may only be accessed if the last call to <see cref="M:Nito.AsyncEx.IAsyncEnumerator`1.MoveNextAsync(System.Threading.CancellationToken)" /> returned <c>true</c>.
+            </summary>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncEnumerator">
+      <summary>
+            Provides extension methods for asynchronous enumerators.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncEnumerator.MoveNextAsync``1(Nito.AsyncEx.IAsyncEnumerator{``0})">
+      <summary>
+            Performs an asynchronous operation to move to the next element.
+            </summary>
+      <typeparam name="T">The type of element.</typeparam>
+      <param name="this">The asynchronous enumerator. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if there is another element; <c>false</c> otherwise.</returns>
+      <requires>@this != null</requires>
+      <ensures>Contract.Result&lt;Task&lt;bool&gt;&gt;() != null</ensures>
+    </member>
+    <member name="T:Nito.AsyncEx.AsyncContextThread">
+      <summary>
+            A thread that executes actions within an <see cref="T:Nito.AsyncEx.AsyncContext" />.
+            </summary>
+      <invariant>this.thread != null</invariant>
+      <invariant>this.context != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContextThread.thread">
+      <summary>
+            The child thread.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContextThread.context">
+      <summary>
+            The asynchronous context executed by the child thread.
+            </summary>
+    </member>
+    <member name="F:Nito.AsyncEx.AsyncContextThread.stoppingFlag">
+      <summary>
+            A flag used to ensure we only call <see cref="M:Nito.AsyncEx.AsyncContext.OperationCompleted" /> once during complex join/dispose operations.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContextThread.#ctor(System.Threading.ApartmentState)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.AsyncContextThread" /> class, creating a child thread waiting for commands.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContextThread.AllowThreadToExit">
+      <summary>
+            Permits the thread to exit, if we have not already done so.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContextThread.Join(System.TimeSpan)">
+      <summary>
+            Requests this thread to exit and then blocks the calling thread until either this thread exits or a timeout occurs. The thread will exit when all outstanding asynchronous operations complete unless the <see cref="T:Nito.AsyncEx.AsyncContext" /> has been aborted.
+            </summary>
+      <param name="timeout">The length of time to wait for this thread to exit.</param>
+      <returns>
+        <c>true</c> if this thread exited cleanly; <c>false</c> if the timout occurred.</returns>
+      <remarks>
+        <para>This method has no effect if the thread has not started or has already exited.</para>
+      </remarks>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContextThread.Join">
+      <summary>
+            Requests this thread to exit and then blocks the calling thread until this thread exits. The thread will exit when all outstanding asynchronous operations complete unless the <see cref="T:Nito.AsyncEx.AsyncContext" /> has been aborted.
+            </summary>
+      <remarks>
+        <para>This method has no effect if the thread has not started or has already exited.</para>
+      </remarks>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContextThread.Start">
+      <summary>
+            Starts this thread running. A thread may not be started more than once.
+            </summary>
+      <remarks>
+        <para>Work may be queued to the <see cref="T:Nito.AsyncEx.AsyncContext" /> before it starts running.</para>
+      </remarks>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncContextThread.Dispose">
+      <summary>
+            Requests this thread to exit, blocks the calling thread until this thread exits, and then cleans up all resources.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContextThread.Context">
+      <summary>
+            Gets the <see cref="T:Nito.AsyncEx.AsyncContext" /> executed by this thread.
+            </summary>
+      <getter>
+        <ensures>Contract.Result&lt;AsyncContext&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContextThread.IsAlive">
+      <summary>
+            Gets a value indicating whether this instance is alive (has started but not yet exited).
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContextThread.IsBackground">
+      <summary>
+            Gets or sets a value indicating whether this instance is a background thread. This property may not be accessed after a <see cref="O:Nito.AsyncEx.AsyncContextThread.Join" />.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContextThread.ManagedThreadId">
+      <summary>
+            Gets a unique identifier for this thread.
+            </summary>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContextThread.Name">
+      <summary>
+            Gets or sets the name of this thread. This property may only be set once, before the thread is started.
+            </summary>
+      <remarks>
+        <para>Starting the thread will set this to a reasonable default value if it has not already been set.</para>
+      </remarks>
+      <setter>
+        <requires>value != null</requires>
+      </setter>
+    </member>
+    <member name="P:Nito.AsyncEx.AsyncContextThread.Priority">
+      <summary>
+            Gets or sets a value indicating the scheduling priority of this thread. This property may not be accessed after a <see cref="O:Nito.AsyncEx.AsyncContextThread.Join" />.
+            </summary>
+      <remarks>
+        <para>Like normal <see cref="T:System.Threading.Thread" /> objects, the priority should not generally be set.</para>
+      </remarks>
+    </member>
+    <member name="T:Nito.AsyncEx.TaskCompletionSourceExtensions">
+      <summary>
+            Provides extension methods for <see cref="T:System.Threading.Tasks.TaskCompletionSource`1" />.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSourceExtensions.TryCompleteFromCompletedTask``1(System.Threading.Tasks.TaskCompletionSource{``0},System.Threading.Tasks.Task{``0})">
+      <summary>
+            Attempts to complete a <see cref="T:System.Threading.Tasks.TaskCompletionSource`1" />, propogating the completion of <paramref name="task" />.
+            </summary>
+      <typeparam name="TResult">The type of the result of the asynchronous operation.</typeparam>
+      <param name="this">The task completion source. May not be <c>null</c>.</param>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if this method completed the task completion source; <c>false</c> if it was already completed.</returns>
+      <requires>@this != null</requires>
+      <requires>task != null</requires>
+      <requires>task.IsCompleted</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSourceExtensions.TryCompleteFromEventArgs``1(System.Threading.Tasks.TaskCompletionSource{``0},System.ComponentModel.AsyncCompletedEventArgs,System.Func{``0})">
+      <summary>
+            Attempts to complete a <see cref="T:System.Threading.Tasks.TaskCompletionSource`1" />, propogating the completion of <paramref name="eventArgs" />.
+            </summary>
+      <typeparam name="TResult">The type of the result of the asynchronous operation.</typeparam>
+      <param name="this">The task completion source. May not be <c>null</c>.</param>
+      <param name="eventArgs">The event arguments passed to the completion event. May not be <c>null</c>.</param>
+      <param name="getResult">The delegate used to retrieve the result. This is only invoked if <paramref name="eventArgs" /> indicates successful completion. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if this method completed the task completion source; <c>false</c> if it was already completed.</returns>
+      <requires>@this != null</requires>
+      <requires>eventArgs != null</requires>
+      <requires>getResult != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSourceExtensions.TryCompleteFromCompletedTask(Nito.AsyncEx.TaskCompletionSource,System.Threading.Tasks.Task)">
+      <summary>
+            Attempts to complete a <see cref="T:Nito.AsyncEx.TaskCompletionSource" />, propogating the completion of <paramref name="task" />.
+            </summary>
+      <param name="this">The task completion source. May not be <c>null</c>.</param>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if this method completed the task completion source; <c>false</c> if it was already completed.</returns>
+      <requires>@this != null</requires>
+      <requires>task != null</requires>
+      <requires>task.IsCompleted</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskCompletionSourceExtensions.TryCompleteFromEventArgs(Nito.AsyncEx.TaskCompletionSource,System.ComponentModel.AsyncCompletedEventArgs)">
+      <summary>
+            Attempts to complete a <see cref="T:Nito.AsyncEx.TaskCompletionSource" />, propogating the completion of <paramref name="eventArgs" />.
+            </summary>
+      <param name="this">The task completion source. May not be <c>null</c>.</param>
+      <param name="eventArgs">The event arguments passed to the completion event. May not be <c>null</c>.</param>
+      <returns>
+        <c>true</c> if this method completed the task completion source; <c>false</c> if it was already completed.</returns>
+      <requires>@this != null</requires>
+      <requires>eventArgs != null</requires>
+    </member>
+    <member name="T:Nito.AsyncEx.ObserverProgress`1">
+      <summary>
+            A progress implementation that sends progress reports to an observer stream. Optionally ends the stream when the task completes.
+            </summary>
+      <typeparam name="T">The type of progress value.</typeparam>
+      <invariant>this.observer != null</invariant>
+    </member>
+    <member name="F:Nito.AsyncEx.ObserverProgress`1.observer">
+      <summary>
+            The observer to pass progress reports to.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.ObserverProgress`1.#ctor(System.IObserver{`0})">
+      <summary>
+            Initializes a new instance of the <see cref="T:Nito.AsyncEx.ObserverProgress`1" /> class.
+            </summary>
+      <param name="observer">The observer to pass progress reports to. May not be <c>null</c>.</param>
+      <requires>observer != null</requires>
+    </member>
+    <member name="M:Nito.AsyncEx.ObserverProgress`1.ObserveTaskForCompletion(System.Threading.Tasks.Task)">
+      <summary>
+            Watches the task, and completes the observer (via <see cref="M:System.IObserver`1.OnError(System.Exception)" /> or <see cref="M:System.IObserver`1.OnCompleted" /> when the task completes.
+            </summary>
+      <param name="task">The task to watch. May not be <c>null</c>.</param>
+      <requires>task != null</requires>
+    </member>
+    <member name="T:Nito.AsyncEx.TaskExtensions">
+      <summary>
+            Provides extension methods for tasks.
+            </summary>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskExtensions.WaitAndUnwrapException(System.Threading.Tasks.Task)">
+      <summary>
+            Waits for the task to complete, unwrapping any exceptions.
+            </summary>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <requires>task != null</requires>
+      <ensures>task.IsCompleted</ensures>
+      <ensuresOnThrow exception="T:System.Exception">task.IsCompleted</ensuresOnThrow>
+      <exception cref="T:System.Exception">task.IsCompleted will be true on throw.</exception>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskExtensions.WaitAndUnwrapException(System.Threading.Tasks.Task,System.Threading.CancellationToken)">
+      <summary>
+            Waits for the task to complete, unwrapping any exceptions.
+            </summary>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
+      <exception cref="T:System.OperationCanceledException">The <paramref name="cancellationToken" /> was cancelled before the <paramref name="task" /> completed, or the <paramref name="task" /> raised an <see cref="T:System.OperationCanceledException" />.</exception>
+      <requires>task != null</requires>
+      <ensures>task.IsCompleted</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskExtensions.WaitAndUnwrapException``1(System.Threading.Tasks.Task{``0})">
+      <summary>
+            Waits for the task to complete, unwrapping any exceptions.
+            </summary>
+      <typeparam name="TResult">The type of the result of the task.</typeparam>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <returns>The result of the task.</returns>
+      <requires>task != null</requires>
+      <ensures>task.IsCompleted</ensures>
+      <ensuresOnThrow exception="T:System.Exception">task.IsCompleted</ensuresOnThrow>
+      <exception cref="T:System.Exception">task.IsCompleted will be true on throw.</exception>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskExtensions.WaitAndUnwrapException``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationToken)">
+      <summary>
+            Waits for the task to complete, unwrapping any exceptions.
+            </summary>
+      <typeparam name="TResult">The type of the result of the task.</typeparam>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
+      <returns>The result of the task.</returns>
+      <exception cref="T:System.OperationCanceledException">The <paramref name="cancellationToken" /> was cancelled before the <paramref name="task" /> completed, or the <paramref name="task" /> raised an <see cref="T:System.OperationCanceledException" />.</exception>
+      <requires>task != null</requires>
+      <ensures>task.IsCompleted</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskExtensions.WaitWithoutException(System.Threading.Tasks.Task)">
+      <summary>
+            Waits for the task to complete, but does not raise task exceptions. The task exception (if any) is unobserved.
+            </summary>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <requires>task != null</requires>
+      <ensures>task.IsCompleted</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.TaskExtensions.WaitWithoutException(System.Threading.Tasks.Task,System.Threading.CancellationToken)">
+      <summary>
+            Waits for the task to complete, but does not raise task exceptions. The task exception (if any) is unobserved.
+            </summary>
+      <param name="task">The task. May not be <c>null</c>.</param>
+      <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
+      <exception cref="T:System.OperationCanceledException">The <paramref name="cancellationToken" /> was cancelled before the <paramref name="task" /> completed.</exception>
+      <requires>task != null</requires>
+      <ensures>task.IsCompleted</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.Callback(System.Func{Microsoft.TeamFoundation.Client.ICancelableAsyncResult,`0},System.Threading.Tasks.TaskCompletionSource{`0})">
+      <requires>endMethod != null</requires>
+      <requires>tcs != null</requires>
+      <ensures>Contract.Result&lt;AsyncCallback&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory`1.Callback(System.Func{System.IAsyncResult,`0},System.Threading.Tasks.TaskCompletionSource{`0})">
+      <requires>endMethod != null</requires>
+      <requires>tcs != null</requires>
+      <ensures>Contract.Result&lt;AsyncCallback&gt;() != null</ensures>
+    </member>
+    <member name="M:Nito.AsyncEx.AsyncFactory.Callback(System.Action{System.IAsyncResult},System.Threading.Tasks.TaskCompletionSource{System.Object})">
+      <requires>endMethod != null</requires>
+      <requires>tcs != null</requires>
+      <ensures>Contract.Result&lt;AsyncCallback&gt;() != null</ensures>
+    </member>
+  </members>
+</doc>

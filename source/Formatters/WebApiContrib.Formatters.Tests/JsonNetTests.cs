@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -24,11 +25,11 @@ namespace WebApiContrib.Formatters.Tests {
             
             // Act
             var fromContent = new ObjectContent<Contact>(fromContact, new MediaTypeHeaderValue("application/json"), formatters);
-            var contentReadStream = fromContent.ContentReadStream;
-            contentReadStream.Position = 0;
-            var toContent = new ObjectContent<Contact>(new StreamContent(contentReadStream), formatters);
+            var contentString = fromContent.ReadAsStringAsync().Result;
+
+            var toContent = new ObjectContent<Contact>(new StringContent(contentString), formatters);
             toContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var toContact = toContent.ReadAs();
+            var toContact = toContent.ReadAsAsync<Contact>().Result;
 
             //Arrange
             Assert.AreEqual(fromContact.FirstName, toContact.FirstName);
@@ -46,11 +47,14 @@ namespace WebApiContrib.Formatters.Tests {
 
             // Act
             var fromContent = new ObjectContent<Contact>(fromContact, "application/bson", formatters);
-            var contentReadStream = fromContent.ContentReadStream;
+            var contentReadStream = fromContent.ReadAsStreamAsync().Result;
+            var newStream = new MemoryStream();
             contentReadStream.Position = 0;
-            var toContent = new ObjectContent<Contact>(new StreamContent(contentReadStream), formatters);
+            contentReadStream.CopyTo(newStream); 
+            newStream.Position = 0;
+            var toContent = new ObjectContent<Contact>(new StreamContent(newStream), formatters);
             toContent.Headers.ContentType = new MediaTypeHeaderValue("application/bson");
-            var toContact = toContent.ReadAs();
+            var toContact = toContent.ReadAsAsync<Contact>().Result;
 
             //Arrange
             Assert.AreEqual(fromContact.FirstName, toContact.FirstName);

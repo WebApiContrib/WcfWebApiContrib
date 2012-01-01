@@ -51,10 +51,6 @@ namespace WebApiContrib.MessageHandlers
             return base.SendAsync(request, cancellationToken);
         }
 
-        protected override HttpResponseMessage Send(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class UriExtensionMapping

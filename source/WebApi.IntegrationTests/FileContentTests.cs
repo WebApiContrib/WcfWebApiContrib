@@ -33,7 +33,7 @@ namespace WebApi.IntegrationTests {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = serviceUri;
 
-            var response = httpClient.Post("ResourceA",content);
+            var response = httpClient.PostAsync("ResourceA",content).Result;
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -53,7 +53,7 @@ namespace WebApi.IntegrationTests {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = serviceUri;
 
-            var response = httpClient.Post("ResourceA", content);
+            var response = httpClient.PostAsync("ResourceA", content).Result;
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
