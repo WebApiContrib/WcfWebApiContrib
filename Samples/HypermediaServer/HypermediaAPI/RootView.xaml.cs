@@ -16,9 +16,9 @@ namespace HypermediaAPI {
     /// <summary>
     /// Interaction logic for RootView.xaml
     /// </summary>
-    public partial class RootView : UserControl {
+    public partial class RootView  {
         public RootView() {
-            InitializeComponent();
+
         }
     }
 }
