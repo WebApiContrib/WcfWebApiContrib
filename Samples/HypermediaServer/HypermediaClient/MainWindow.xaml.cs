@@ -22,20 +22,10 @@ namespace HypermediaClient {
         public MainWindow() {
             InitializeComponent();
 
-            var restagent = new RESTAgent.RestAgent();
-            restagent.RegisterSemanticsProvider(new RESTAgent.BasicMediaTypes.StandardSemanticsProvider());
-            restagent.RegisterDefaultResponseCompleteHandler(OnComplete);
-            restagent.RegisterDefaultErrorHandler(OnError);
-            restagent.NavigateTo(new Link("http://localhost:1000/"));
+            
                
         }
 
-        private void OnError(Exception ex) {
-         
-        }
-
-        private void OnComplete(IHypermediaContent content) {
-         
-        }
+     
     }
 }
